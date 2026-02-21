@@ -19,6 +19,19 @@ export default defineConfig({
 
   rewrites: {
     "": "getting-started/introduction",
+    es: "es/getting-started/introduction",
+  },
+
+  locales: {
+    root: {
+      label: "English",
+      lang: "en",
+    },
+    es: {
+      label: "Español",
+      lang: "es",
+      link: "/es/getting-started/introduction",
+    },
   },
 
   head: [
@@ -65,12 +78,7 @@ export default defineConfig({
     logo: "/logo.svg",
     siteTitle: "OptiKPI Docs",
 
-    nav: [
-      { text: "Getting Started", link: "/getting-started/introduction" },
-      { text: "Data Pipeline SDK", link: "/data-pipeline-sdk/overview" },
-      { text: "Push SDK", link: "/push-sdk/overview" },
-      { text: "API Reference", link: "/api-reference/user" },
-    ],
+    nav: [{ text: "Getting Started", link: "/getting-started/introduction" }],
 
     sidebar: [
       {

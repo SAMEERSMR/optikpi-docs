@@ -1,14 +1,31 @@
 :root {
     --layout-gap: 16px;
-    --vp-c-brand-1: #07388a;
-    --vp-c-brand-2: #0a4fab;
-    --vp-c-brand-3: #1361c7;
+    --vp-c-brand-1: #07388A;
+    --vp-c-brand-2: #3162B5;
+    --vp-c-brand-3: #5A82C4;
     --vp-c-brand-soft: rgba(7, 56, 138, 0.12);
+    --e-global-color-0843a6: #0843A6;
+    --e-global-color-052d6f: #052D6F;
+    --e-global-color-042253: #042253;
 
-    --vp-font-family-base: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont,
-        'Segoe UI', Roboto, sans-serif;
+    --vp-font-family-base: 'Inter', sans-serif, 'SF Pro Display', -apple-system, BlinkMacSystemFont,
+        'Segoe UI', Roboto;
     --vp-font-family-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', Menlo,
         monospace;
+
+    --vp-c-bg: #FFFFFF;
+    --vp-c-bg-soft: #F9FAFB;
+    --vp-c-bg-mute: #F9FAFB;
+    --vp-c-bg-elv: #F9FAFB;
+    --vp-c-text-1: #101828;
+    --vp-c-text-2: #344054;
+    --vp-c-text-3: #667085;
+    --vp-c-divider: #D0D5DD;
+    --vp-c-gutter: #FFFFFF;
+    --vp-nav-bg-color: #FFFFFF;
+    --vp-sidebar-bg-color: #F9FAFB;
+    --vp-c-nav-border: #D0D5DD;
+    --vp-c-sidebar-border: #D0D5DD;
 
     --vp-code-block-bg: #f8f8f8;
     --vp-code-block-color: #24292f;
@@ -16,19 +33,19 @@
     --vp-code-copy-code-hover-bg: rgba(0, 0, 0, 0.12);
 
     --vp-icon-required: #07388a;
-    --vp-icon-optional: #475569;
+    --vp-icon-optional: #475467;
     --vp-icon-warning: #b45309;
 
     --vp-c-code-lang: #4a7ab5;
     --vp-c-code-panel-bg: #EAECF0;
-    --vp-c-border-subtle: rgba(0, 0, 0, 0.06);
-    --vp-c-border-strong: rgba(0, 0, 0, 0.12);
-    --vp-c-border-cell: rgba(0, 0, 0, 0.08);
+    --vp-c-border-subtle: rgba(16, 24, 40, 0.06);
+    --vp-c-border-strong: rgba(16, 24, 40, 0.12);
+    --vp-c-border-cell: rgba(16, 24, 40, 0.08);
     --vp-c-inline-code-bg: #E8EEF7;
     --vp-c-inline-code-text: #07388a;
     --vp-c-inline-code-border: rgba(7, 56, 138, 0.12);
-    --vp-c-table-head: #213547;
-    --vp-c-table-row-hover: rgba(0, 0, 0, 0.02);
+    --vp-c-table-head: #344054;
+    --vp-c-table-row-hover: rgba(16, 24, 40, 0.02);
     --vp-c-tabs-inactive: #667085;
     --vp-c-tip-border: rgba(16, 185, 129, 0.3);
     --vp-c-tip-bg: rgba(16, 185, 129, 0.08);
@@ -70,6 +87,9 @@
     --vp-c-hero-gradient-mid: #5b82c4;
     --vp-c-hero-gradient-end: #83ebf6;
     --vp-c-feature-shadow: rgba(7, 56, 138, 0.12);
+
+    --vp-scrollbar-thumb: var(--vp-c-divider);
+    --vp-scrollbar-thumb-hover: #667085;
 }
 
 .dark {
@@ -135,6 +155,9 @@
     --vp-c-danger-code-bg: rgba(239, 68, 68, 0.15);
     --vp-c-danger-code-border-strong: rgba(239, 68, 68, 0.3);
     --vp-c-feature-shadow: rgba(91, 130, 196, 0.15);
+
+    --vp-scrollbar-thumb: var(--vp-c-divider);
+    --vp-scrollbar-thumb-hover: rgba(255, 255, 255, 0.22);
 }
 
 .dark .vp-doc h1,
@@ -203,6 +226,8 @@
     padding-inline: 20px;
     padding-bottom: 16px;
     width: 280px;
+    background-color: var(--vp-sidebar-bg-color);
+    border-right: 1px solid var(--vp-c-sidebar-border);
 }
 
 .Layout .VPNavBar.has-sidebar .title:not(a) {
@@ -260,8 +285,7 @@
 }
 
 .dark .VPSidebar {
-    background-color: var(--vp-sidebar-bg-color);
-    border-right: 1px solid var(--vp-c-sidebar-border);
+    border-right-color: var(--vp-c-sidebar-border);
 }
 
 .VPSidebarItem.level-0>.item>.text {
@@ -450,7 +474,7 @@ div[class*='language-']::before {
 }
 
 .vp-doc table th {
-    font-weight: 700;
+    font-weight: 600;
     font-size: 14px;
     text-transform: none;
     letter-spacing: 0;
@@ -896,24 +920,38 @@ div[class*='language-']::before {
 
 .vp-doc h1 {
     font-size: 2rem;
-    font-weight: 800;
+    font-weight: 600;
     letter-spacing: -0.03em;
     line-height: 1.2;
+    color: #101828;
 }
 
 .vp-doc h2 {
     font-size: 1.35rem;
-    font-weight: 700;
+    font-weight: 600;
     letter-spacing: -0.02em;
     border-top: 1px solid var(--vp-c-divider);
     padding-top: 1.5rem;
     margin-top: 2.5rem;
+    color: #101828;
 }
 
 .vp-doc h3 {
     font-size: 1.05rem;
     font-weight: 600;
-    color: var(--vp-c-text-1);
+    color: #101828;
+}
+
+.vp-doc h4,
+.vp-doc h5,
+.vp-doc h6 {
+    font-weight: 600;
+    color: #101828;
+}
+
+.vp-doc p,
+.vp-doc li {
+    color: #344054;
 }
 
 .method-badge {
@@ -1026,7 +1064,7 @@ div[class*='language-']::before {
 
 .VPDocAside .outline-title {
     font-size: 12px;
-    font-weight: 700;
+    font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.06em;
     color: var(--vp-c-text-2);
@@ -1051,12 +1089,12 @@ div[class*='language-']::before {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: var(--vp-c-divider);
+    background: var(--vp-scrollbar-thumb);
     border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: var(--vp-c-brand-3);
+    background: var(--vp-scrollbar-thumb-hover);
 }
 
 .vp-doc .sdk-card-group {
@@ -1106,4 +1144,13 @@ div[class*='language-']::before {
     font-size: 1.5rem;
     margin-bottom: 0.5rem;
     line-height: 1;
+    display: block;
+}
+
+.vp-doc .sdk-card .sdk-card-icon img,
+.vp-doc .sdk-card .sdk-card-icon svg {
+    display: block;
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
 }
