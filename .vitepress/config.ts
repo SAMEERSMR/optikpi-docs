@@ -7,6 +7,8 @@ const optionalIcon =
   '<span class="vp-icon vp-icon-optional vp-icon-incorrect" role="img" aria-label="Optional"></span>';
 const warningIcon =
   '<span class="vp-icon vp-icon-warning vp-icon-warning-triangle" role="img" aria-label="Warning"></span>';
+const arrowIcon =
+  '<span class="vp-icon vp-icon-arrow" role="img" aria-label="Link"></span>';
 
 export default defineConfig({
   title: "OptiKPI",
@@ -57,16 +59,17 @@ export default defineConfig({
       const defaultText = md.renderer.rules?.text;
       md.renderer.rules.text = (tokens, idx, options, env, self) => {
         const content = tokens[idx]?.content ?? "";
-        if (!/✅|❌|⚠️/.test(content))
+        if (!/✅|❌|⚠️|→/.test(content))
           return defaultText
             ? defaultText(tokens, idx, options, env, self)
             : escapeHtml(content);
-        const parts = content.split(/(✅|❌|⚠️)/g);
+        const parts = content.split(/(✅|❌|⚠️|→)/g);
         return parts
           .map((p) => {
             if (p === "✅") return requiredIcon;
             if (p === "❌") return optionalIcon;
             if (p === "⚠️") return warningIcon;
+            if (p === "→") return arrowIcon;
             return escapeHtml(p);
           })
           .join("");
