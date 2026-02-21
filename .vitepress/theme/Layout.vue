@@ -1,14 +1,9 @@
 <script setup>
-import DefaultTheme from 'vitepress/theme'
-import EmojiToIcon from './components/EmojiToIcon.vue'
+import DefaultTheme from "vitepress/theme";
 
-const { Layout } = DefaultTheme
+const { Layout } = DefaultTheme;
 </script>
 
 <template>
-  <Layout>
-    <template #layout-top>
-      <EmojiToIcon />
-    </template>
-  </Layout>
+  <Layout />
 </template>

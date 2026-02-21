@@ -6,172 +6,103 @@ Workspace endpoints manage workspace settings, branding, subscription details, a
 
 ## Get Workspace
 
-Retrieve the current workspace's full configuration and settings.
+Retrieve the current workspace's configuration. Uses **workSpaceId** from request headers (set by middleware). Response is **flat**: `{ data: workspace }` (no `result` wrapper).
 
 **`GET /{locale}/api/workspace`**
 
-### Response
+### Response (200)
 
 ```json
 {
-  "result": {
-    "data": {
-      "id": "ws_xyz789",
-      "name": "Acme Corp Marketing",
-      "accountId": "acc_def456",
-      "logo": "https://s3.amazonaws.com/bucket/logos/ws_xyz789.png",
-      "timezone": "Asia/Dubai",
-      "language": "en",
-      "plan": "ENTERPRISE",
-      "features": {
-        "campaigns": true,
-        "workflows": true,
-        "audience": true,
-        "customer360": true,
-        "pushNotifications": true
-      },
-      "limits": {
-        "monthlyEmails": 500000,
-        "monthlySmsSent": 50000,
-        "audiences": 100,
-        "workflows": 50
-      },
-      "createdAt": "2023-06-01T00:00:00.000Z",
-      "updatedAt": "2025-01-10T10:00:00.000Z"
-    },
-    "message": "Workspace fetched successfully",
-    "status": 200
+  "data": {
+    "id": "ws_xyz789",
+    "name": "Acme Corp Marketing",
+    "domain": "acme.com",
+    "timezone": "Asia/Dubai",
+    "registerationNumber": "REG123",
+    "logo": "https://s3.amazonaws.com/bucket/logos/ws_xyz789.png",
+    "enableAudienceAllocationInCampaign": true
   }
 }
 ```
 
-## Get Brands / Subscription Details
+**Errors:** 400 `{ "message": "Invalid request. Id not provided." }`; 404 `{ "message": "Workspace not found" }`; 500 on server error.
 
-Retrieve brands or subscription metadata associated with the workspace.
+## POST — Type-Based Operations
 
 **`POST /{locale}/api/workspace`**
 
-### Request Body
+All requests require a `type` field. The following types are supported.
 
-| Field  | Type     | Required | Description                        |
-| ------ | -------- | -------- | ---------------------------------- |
-| `type` | `string` | ✅       | `GET_BRANDS` or `GET_SUBSCRIPTION` |
+### Type: GET-SELECTED-BRANDS
 
-### Get Brands
+Returns workspace records for the given workspace IDs.
 
-```json
-{
-  "type": "GET_BRANDS"
-}
-```
+**Request Body**
 
-**Response**
+| Field      | Type     | Required | Description                 |
+| ---------- | -------- | -------- | --------------------------- |
+| type       | string   | ✅       | Must be GET-SELECTED-BRANDS |
+| workspaces | string[] | ✅       | Array of workspace IDs      |
 
-```json
-{
-  "result": {
-    "data": [
-      {
-        "id": "brand_01",
-        "name": "Acme Main Brand",
-        "logo": "https://s3.amazonaws.com/bucket/brands/brand_01.png",
-        "primaryColor": "#07388A",
-        "senderEmail": "hello@acme.com"
-      }
-    ],
-    "message": "Brands fetched successfully",
-    "status": 200
-  }
-}
-```
-
-### Get Subscription
+**Response (200)**
 
 ```json
 {
-  "type": "GET_SUBSCRIPTION"
+  "brands": [
+    {
+      "id": "ws_01",
+      "name": "Acme Main",
+      "domain": "acme.com",
+      "timezone": "Asia/Dubai",
+      "deletedAt": null
+    }
+  ]
 }
 ```
 
-**Response**
+**Errors:** 500 `{ "error": "Error getting the brands data" }`.
+
+### Type: GET-CUSTOMER360-SUBSCRIPTION-DETAILS
+
+Returns Customer 360 subscription details for the current workspace.
+
+**Request Body**
 
 ```json
 {
-  "result": {
-    "data": {
-      "plan": "ENTERPRISE",
-      "status": "ACTIVE",
-      "billingCycle": "ANNUAL",
-      "renewsAt": "2026-06-01T00:00:00.000Z",
-      "isCustomer360Enabled": true,
-      "isBetaEnabled": false
-    },
-    "message": "Subscription details fetched successfully",
-    "status": 200
-  }
+  "type": "GET-CUSTOMER360-SUBSCRIPTION-DETAILS"
 }
 ```
+
+**Response (200)**
+
+```json
+{
+  "subscriptionDetails": [{ "key": "customer_360", "enabled": true }]
+}
+```
+
+**Errors:** 500 `{ "error": "Error getting the subscription details data" }`.
 
 ## Update Workspace
 
-Update workspace settings, branding, or preferences.
-
 **`PUT /{locale}/api/workspace`**
 
-### Request Body
+Updates workspace settings. Body can include fields such as `timezone`, `registerationNumber`, and other workspace attributes. Response is `{ data: updatedWorkspace }`.
 
-| Field          | Type     | Required | Description                                  |
-| -------------- | -------- | -------- | -------------------------------------------- |
-| `name`         | `string` | ❌       | Workspace display name                       |
-| `logo`         | `string` | ❌       | Logo image URL (uploaded via `/api/uploads`) |
-| `timezone`     | `string` | ❌       | Default timezone for the workspace           |
-| `language`     | `string` | ❌       | Default language code                        |
-| `primaryColor` | `string` | ❌       | Brand primary color hex                      |
-| `senderEmail`  | `string` | ❌       | Default sender email                         |
-| `senderName`   | `string` | ❌       | Default sender display name                  |
+**Errors:** 400 when workSpaceId missing; 500 on server error.
 
-### Request
+---
 
-```json
-{
-  "name": "Acme Corp Marketing",
-  "timezone": "Asia/Dubai",
-  "language": "en",
-  "primaryColor": "#07388A",
-  "senderEmail": "campaigns@acme.com",
-  "senderName": "Acme Campaigns"
-}
-```
+## Workspace Object (GET response)
 
-### Response
-
-```json
-{
-  "result": {
-    "data": {
-      "id": "ws_xyz789",
-      "name": "Acme Corp Marketing",
-      "timezone": "Asia/Dubai",
-      "updatedAt": "2025-02-20T12:00:00.000Z"
-    },
-    "message": "Workspace updated successfully",
-    "status": 200
-  }
-}
-```
-
-## Workspace Object
-
-| Field       | Type             | Description                                                  |
-| ----------- | ---------------- | ------------------------------------------------------------ |
-| `id`        | `string`         | Unique workspace ID                                          |
-| `name`      | `string`         | Workspace display name                                       |
-| `accountId` | `string`         | Parent account ID                                            |
-| `logo`      | `string \| null` | Logo image URL                                               |
-| `timezone`  | `string`         | Default timezone                                             |
-| `language`  | `string`         | Default language                                             |
-| `plan`      | `string`         | Subscription plan: `FREE`, `STARTER`, `GROWTH`, `ENTERPRISE` |
-| `features`  | `object`         | Feature flags (booleans)                                     |
-| `limits`    | `object`         | Usage limits by resource type                                |
-| `createdAt` | `string`         | ISO 8601 creation timestamp                                  |
-| `updatedAt` | `string`         | ISO 8601 last update timestamp                               |
+| Field                                | Type    | Description                                        |
+| ------------------------------------ | ------- | -------------------------------------------------- |
+| id                                   | string  | Workspace ID                                       |
+| name                                 | string  | Workspace name                                     |
+| domain                               | string  | Domain                                             |
+| timezone                             | string  | Workspace timezone                                 |
+| registerationNumber                  | string  | Registration number                                |
+| logo                                 | string  | Logo URL                                           |
+| enableAudienceAllocationInCampaign | boolean | Whether audience allocation in campaign is enabled |

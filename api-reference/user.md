@@ -1,19 +1,19 @@
 # User
 
-Endpoints for user lookup and profile management. These routes do not require a locale prefix — they are available at `/api/user`.
+User-related endpoints: one at `/api/user` (no locale) for password check, and one at `/{locale}/api/user` (with locale) for get/update user details.
 
-## Check User Existence
+## Check User Has Password
 
-Check whether a user exists by email address and workspace.
+Check whether a user exists for the given email and workspace and has a password set. This route does **not** require a locale prefix.
 
 **`GET /api/user`**
 
 ### Query Parameters
 
-| Parameter     | Type     | Required | Description                         |
-| ------------- | -------- | -------- | ----------------------------------- |
-| `email`       | `string` | ✅       | User's email address                |
-| `workspaceId` | `string` | ✅       | Workspace ID to check membership in |
+| Parameter   | Type   | Required | Description                         |
+| ----------- | ------ | -------- | ----------------------------------- |
+| email       | string | ✅       | User's email address                |
+| workspaceId | string | ✅       | Workspace ID to check membership in |
 
 ### Request
 
@@ -34,11 +34,14 @@ curl -X GET "https://api.optikpi.com/api/user?email=admin@example.com&workspaceI
 == JavaScript
 
 ```javascript
-const response = await fetch('/api/user?email=admin@example.com&workspaceId=ws_abc123', {
-  headers: {
-    Authorization: 'Bearer YOUR_ACCESS_TOKEN'
-  }
-});
+const response = await fetch(
+  "/api/user?email=admin@example.com&workspaceId=ws_abc123",
+  {
+    headers: {
+      Authorization: "Bearer YOUR_ACCESS_TOKEN",
+    },
+  },
+);
 const data = await response.json();
 ```
 
@@ -59,123 +62,158 @@ data = response.json()
 
 ### Response
 
-**User exists**
+**Success (200)**
 
 ```json
 {
-  "exists": true,
-  "userId": "usr_abc123"
+  "havePassword": true
 }
 ```
 
-**User not found**
+or `{ "havePassword": false }` if the user has no password set.
+
+**Error (400)** — Missing email or workspaceId
 
 ```json
 {
-  "exists": false
+  "message": "Email not added"
 }
 ```
+
+---
 
 ## Get / Update User Details
 
-Retrieve or update a user's profile and preferences.
+Retrieve or update a user's profile. This endpoint **requires** a locale prefix.
 
-**`POST /api/user`**
+**`POST /{locale}/api/user`**
 
 ### Request Headers
 
-| Header        | Type     | Description                         |
-| ------------- | -------- | ----------------------------------- |
-| `userId`      | `string` | Injected by middleware from session |
-| `workSpaceId` | `string` | Injected by middleware from session |
+| Header      | Description                         |
+| ----------- | ----------------------------------- |
+| userId      | Injected by middleware from session |
+| workSpaceId | Injected by middleware from session |
 
 ### Request Body
 
-| Field      | Type     | Required          | Description                                  |
-| ---------- | -------- | ----------------- | -------------------------------------------- |
-| `type`     | `string` | ✅                | Operation type — `GET_USER` or `UPDATE_USER` |
-| `userId`   | `string` | ✅ (for GET_USER) | ID of the user to retrieve                   |
-| `name`     | `string` | ❌                | Updated display name                         |
-| `language` | `string` | ❌                | Preferred language code (e.g. `en`, `ar`)    |
-| `timezone` | `string` | ❌                | Preferred timezone (e.g. `Asia/Dubai`)       |
-| `avatar`   | `string` | ❌                | URL to profile avatar image                  |
+All requests must include a `type` field. Other fields depend on the type.
 
-### Get User
+| Field           | Type   | Required | Description                                                                   |
+| --------------- | ------ | -------- | ----------------------------------------------------------------------------- |
+| type            | string | ✅       | One of: UNIQUE-USER-DETAILS, UPDATE-USER, UPDATE-MULTI-BRAND-USER-DETAIL        |
+| id              | string | ✅       | User ID (used for all three types)                                            |
+| firstName       | string | ❌       | For UPDATE-USER: first name                                                   |
+| email           | string | ❌       | For UPDATE-USER: email                                                         |
+| role            | string | ❌       | For UPDATE-USER or UPDATE-MULTI-BRAND-USER-DETAIL: role                        |
+| status          | string | ❌       | For UPDATE-USER: e.g. inactive                                                 |
+| workspaces      | array  | ❌       | For UPDATE-USER: workspace IDs                                                |
+| workspaceId     | string | ❌       | For UPDATE-USER or UPDATE-MULTI-BRAND-USER-DETAIL: active workspace ID         |
+| failedAttempts  | number | ❌       | For UPDATE-USER: failed login attempts                                        |
+
+### Type: UNIQUE-USER-DETAILS (Get User)
+
+**Request**
 
 ```json
 {
-  "type": "GET_USER",
-  "userId": "usr_abc123"
+  "type": "UNIQUE-USER-DETAILS",
+  "id": "usr_abc123"
 }
 ```
 
-**Response**
+**Response (200)**
 
 ```json
 {
-  "result": {
-    "data": {
-      "id": "usr_abc123",
-      "name": "John Doe",
-      "email": "john@example.com",
-      "role": "ADMIN",
-      "language": "en",
-      "timezone": "Asia/Dubai",
-      "avatar": "https://s3.amazonaws.com/bucket/avatars/usr_abc123.jpg",
-      "workspaceId": "ws_xyz789",
-      "isBetaUser": false,
-      "isCustomer360": true,
-      "createdAt": "2024-01-15T10:00:00.000Z"
-    },
-    "message": "User fetched successfully",
-    "status": 200
+  "user": {
+    "id": "usr_abc123",
+    "firstName": "John",
+    "email": "john@example.com",
+    "workspaceId": "ws_xyz789",
+    "role": "ADMIN",
+    "status": "active"
   }
 }
 ```
 
-### Update User
+**Errors**
+
+| Status | Body                                   |
+| ------ | -------------------------------------- |
+| 400    | `{ "error": "Missing user ID" }`       |
+| 404    | `{ "error": "user not found" }`        |
+| 500    | `{ "error": "Internal Server Error" }` |
+
+### Type: UPDATE-USER (Update User)
+
+**Request**
 
 ```json
 {
-  "type": "UPDATE_USER",
-  "name": "Jane Doe",
-  "language": "ar",
-  "timezone": "Asia/Riyadh"
+  "type": "UPDATE-USER",
+  "id": "usr_abc123",
+  "firstName": "Jane",
+  "email": "jane@example.com",
+  "role": "EDITOR",
+  "status": "active",
+  "workspaces": ["ws_xyz789"],
+  "workspaceId": "ws_xyz789",
+  "failedAttempts": 0
 }
 ```
 
-**Response**
+**Response (200)**
 
 ```json
 {
-  "result": {
-    "data": {
-      "id": "usr_abc123",
-      "name": "Jane Doe",
-      "language": "ar",
-      "timezone": "Asia/Riyadh"
-    },
-    "message": "User updated successfully",
-    "status": 200
+  "user": {
+    "id": "usr_abc123",
+    "firstName": "Jane",
+    "email": "jane@example.com",
+    "role": "EDITOR",
+    "status": "active",
+    "workspaceId": "ws_xyz789",
+    "updatedAt": "2025-02-21T10:00:00.000Z"
   }
 }
 ```
 
-## User Object
+**Errors**
 
-Full user object returned from the database:
+| Status | Body                                                                                                               |
+| ------ | ------------------------------------------------------------------------------------------------------------------ |
+| 400    | `{ "error": "Missing user ID" }` or `{ "error": "Missing request type" }` or `{ "error": "Invalid request type" }` |
+| 500    | `{ "error": "Internal Server Error" }`                                                                             |
 
-| Field           | Type             | Description                          |
-| --------------- | ---------------- | ------------------------------------ |
-| `id`            | `string`         | Unique user ID (MongoDB ObjectId)    |
-| `name`          | `string`         | Full display name                    |
-| `email`         | `string`         | Email address (unique per workspace) |
-| `role`          | `string`         | User role within the workspace       |
-| `language`      | `string`         | Preferred UI language                |
-| `timezone`      | `string`         | Preferred timezone                   |
-| `avatar`        | `string \| null` | Profile image URL                    |
-| `workspaceId`   | `string`         | Associated workspace ID              |
-| `isBetaUser`    | `boolean`        | Beta features access flag            |
-| `isCustomer360` | `boolean`        | Customer 360 module access flag      |
-| `createdAt`     | `string`         | ISO 8601 creation timestamp          |
-| `updatedAt`     | `string`         | ISO 8601 last update timestamp       |
+### Type: UPDATE-MULTI-BRAND-USER-DETAIL
+
+**Request**
+
+```json
+{
+  "type": "UPDATE-MULTI-BRAND-USER-DETAIL",
+  "id": "usr_abc123",
+  "workspaceId": "ws_new456",
+  "role": "VIEWER"
+}
+```
+
+**Response (200)**
+
+```json
+{
+  "user": {
+    "id": "usr_abc123",
+    "workspaceId": "ws_new456",
+    "role": "VIEWER"
+  }
+}
+```
+
+**Errors**
+
+| Status | Body                                                                                     |
+| ------ | ---------------------------------------------------------------------------------------- |
+| 400    | `{ "error": "Missing request type" }` or `{ "error": "Invalid request type" }`           |
+| 500    | `{ "error": "Error getting the brands data" }` or `{ "error": "Internal Server Error" }` |

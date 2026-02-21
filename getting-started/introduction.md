@@ -1,12 +1,12 @@
 # Introduction
 
-OptikPI is a full-stack marketing automation platform built on **Next.js 14**. It enables teams to create audience segments, run multi-channel campaigns, design automation workflows, and track engagement — all from a unified interface.
+OptiKPI is a full-stack marketing automation platform built on **Next.js 14**. It enables teams to create audience segments, run multi-channel campaigns, design automation workflows, and track engagement — all from a unified interface.
 
 ## Architecture Overview
 
-OptikPI is structured as a Next.js application with locale-prefixed API routes. All API endpoints follow this base path pattern:
+OptiKPI is structured as a Next.js application with locale-prefixed API routes. All API endpoints follow this base path pattern:
 
-```url
+```http
 /{locale}/api/{resource}
 ```
 
@@ -39,19 +39,19 @@ Every user belongs to a **Workspace**. A workspace is an organizational unit tha
 
 ### Locale
 
-The application supports multiple locales (English `en`, Arabic `ar`, etc.). Locale is part of the URL path and is used to localize responses and UI labels. The middleware extracts the active locale from the session and routes requests accordingly.
+The application supports multiple locales. Locale is part of the URL path and is used to localize responses and UI labels. Supported values: `en`, `es`, `zh-CN`, `zh-TW`, `th`, `vi`, `ru`, `pt`. The middleware extracts the active locale from the session and routes requests accordingly.
 
 ### Session Headers
 
 All API calls within the platform include session-derived headers injected by the Next.js middleware:
 
-| Header        | Description                                   |
-| ------------- | --------------------------------------------- |
-| `accountId`   | The account (company/organization) ID         |
-| `workSpaceId` | The active workspace ID                       |
-| `userId`      | The authenticated user's ID                   |
-| `timezone`    | User's preferred timezone (e.g. `Asia/Dubai`) |
-| `language`    | User's preferred language (e.g. `en`)         |
+| Header      | Description                                 |
+| ----------- | ------------------------------------------- |
+| accountId   | The account (company/organization) ID       |
+| workSpaceId | The active workspace ID                     |
+| userId      | The authenticated user's ID                 |
+| timezone    | User's preferred timezone (e.g. Asia/Dubai) |
+| language    | User's preferred language (e.g. en)         |
 
 These headers are not sent by the client — they are automatically set by `middleware.ts` on every server-side API request after reading the session from the JWT cookie.
 

@@ -1,4 +1,5 @@
 optikpi_app_next_private
+optikpi-datapipeline-sdk
 node_modules
 .vitepress/cache
 .vitepress/dist

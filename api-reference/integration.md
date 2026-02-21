@@ -51,19 +51,19 @@ Add a new third-party service integration.
 
 ### Request Body
 
-| Field             | Type      | Required | Description                                  |
-| ----------------- | --------- | -------- | -------------------------------------------- |
-| `name`            | `string`  | ✅       | Integration display name                     |
-| `type`            | `string`  | ✅       | Provider type (see Integration Types below)  |
-| `channel`         | `string`  | ✅       | `EMAIL`, `SMS`, or `PUSH`                    |
-| `apiKey`          | `string`  | ❌       | Provider API key                             |
-| `apiSecret`       | `string`  | ❌       | Provider API secret                          |
-| `senderEmail`     | `string`  | ❌       | From email address (EMAIL integrations)      |
-| `senderName`      | `string`  | ❌       | From display name (EMAIL integrations)       |
-| `senderPhone`     | `string`  | ❌       | From phone number (SMS integrations)         |
-| `vapidPublicKey`  | `string`  | ❌       | VAPID public key (PUSH integrations)         |
-| `vapidPrivateKey` | `string`  | ❌       | VAPID private key (PUSH integrations)        |
-| `isActive`        | `boolean` | ❌       | Enable/disable on creation (default: `true`) |
+| Field           | Type    | Required | Description                                 |
+| --------------- | ------- | -------- | ------------------------------------------- |
+| name            | string  | ✅       | Integration display name                    |
+| type            | string  | ✅       | Provider type (see Integration Types below) |
+| channel         | string  | ✅       | EMAIL, SMS, or PUSH                         |
+| apiKey          | string  | ❌       | Provider API key                            |
+| apiSecret       | string  | ❌       | Provider API secret                         |
+| senderEmail     | string  | ❌       | From email address (EMAIL integrations)     |
+| senderName      | string  | ❌       | From display name (EMAIL integrations)      |
+| senderPhone     | string  | ❌       | From phone number (SMS integrations)        |
+| vapidPublicKey  | string  | ❌       | VAPID public key (PUSH integrations)        |
+| vapidPrivateKey | string  | ❌       | VAPID private key (PUSH integrations)       |
+| isActive        | boolean | ❌       | Enable/disable on creation (default: true)  |
 
 ### SendGrid Example
 
@@ -80,6 +80,7 @@ Add a new third-party service integration.
 
 :::tabs
 == Elastic Email
+
 ```json
 {
   "name": "Elastic Email",
@@ -90,7 +91,9 @@ Add a new third-party service integration.
   "senderName": "Example Campaigns"
 }
 ```
+
 == Web Push VAPID
+
 ```json
 {
   "name": "Web Push VAPID Keys",
@@ -100,7 +103,9 @@ Add a new third-party service integration.
   "vapidPrivateKey": "abc123..."
 }
 ```
+
 == Twilio SMS
+
 ```json
 {
   "name": "Twilio SMS",
@@ -111,6 +116,7 @@ Add a new third-party service integration.
   "senderPhone": "+1234567890"
 }
 ```
+
 :::
 
 ### Response
@@ -144,9 +150,9 @@ Retrieve details for a single integration (excluding sensitive credentials).
 
 ### Path Parameters
 
-| Parameter       | Type     | Description    |
-| --------------- | -------- | -------------- |
-| `integrationId` | `string` | Integration ID |
+| Parameter     | Type   | Description    |
+| ------------- | ------ | -------------- |
+| integrationId | string | Integration ID |
 
 ### Response
 
@@ -176,9 +182,9 @@ Retrieve details for a single integration (excluding sensitive credentials).
 
 ### Path Parameters
 
-| Parameter       | Type     | Description              |
-| --------------- | -------- | ------------------------ |
-| `integrationId` | `string` | Integration ID to delete |
+| Parameter     | Type   | Description              |
+| ------------- | ------ | ------------------------ |
+| integrationId | string | Integration ID to delete |
 
 ### Response
 
@@ -194,28 +200,28 @@ Retrieve details for a single integration (excluding sensitive credentials).
 
 ## Integration Types
 
-| Type            | Channel | Provider                          |
-| --------------- | ------- | --------------------------------- |
-| `SENDGRID`      | EMAIL   | SendGrid                          |
-| `ELASTIC_EMAIL` | EMAIL   | Elastic Email                     |
-| `TWILIO`        | SMS     | Twilio                            |
-| `NEXMO`         | SMS     | Vonage (Nexmo)                    |
-| `WEB_PUSH`      | PUSH    | Web Push API (VAPID)              |
-| `FIREBASE_FCM`  | PUSH    | Firebase Cloud Messaging (legacy) |
+| Type          | Channel | Provider                          |
+| ------------- | ------- | --------------------------------- |
+| SENDGRID      | EMAIL   | SendGrid                          |
+| ELASTIC_EMAIL | EMAIL   | Elastic Email                     |
+| TWILIO        | SMS     | Twilio                            |
+| NEXMO         | SMS     | Vonage (Nexmo)                    |
+| WEB_PUSH      | PUSH    | Web Push API (VAPID)              |
+| FIREBASE_FCM  | PUSH    | Firebase Cloud Messaging (legacy) |
 
 ## Integration Object
 
-| Field            | Type             | Description                    |
-| ---------------- | ---------------- | ------------------------------ |
-| `id`             | `string`         | Unique integration ID          |
-| `name`           | `string`         | Display name                   |
-| `type`           | `string`         | Provider type enum             |
-| `channel`        | `string`         | `EMAIL` \| `SMS` \| `PUSH`     |
-| `isActive`       | `boolean`        | Whether integration is enabled |
-| `senderEmail`    | `string \| null` | From email address             |
-| `senderName`     | `string \| null` | From display name              |
-| `senderPhone`    | `string \| null` | From phone number              |
-| `vapidPublicKey` | `string \| null` | VAPID public key (PUSH)        |
-| `workspaceId`    | `string`         | Owning workspace ID            |
-| `createdAt`      | `string`         | ISO 8601 creation timestamp    |
-| `updatedAt`      | `string`         | ISO 8601 last update timestamp |
+| Field          | Type           | Description                    |
+| -------------- | -------------- | ------------------------------ |
+| id             | string         | Unique integration ID          |
+| name           | string         | Display name                   |
+| type           | string         | Provider type enum             |
+| channel        | string         | EMAIL \| SMS \| PUSH           |
+| isActive       | boolean        | Whether integration is enabled |
+| senderEmail    | string \| null | From email address             |
+| senderName     | string \| null | From display name              |
+| senderPhone    | string \| null | From phone number              |
+| vapidPublicKey | string \| null | VAPID public key (PUSH)        |
+| workspaceId    | string         | Owning workspace ID            |
+| createdAt      | string         | ISO 8601 creation timestamp    |
+| updatedAt      | string         | ISO 8601 last update timestamp |

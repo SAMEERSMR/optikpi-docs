@@ -1,40 +1,73 @@
 # Push SDK Overview
 
-The **OptikPI Push SDK** (`optikpi-push-sdk.js`) is a vanilla JavaScript library that enables web push notification delivery using the **Web Push API** and **Service Workers**. It is designed to run in any modern browser without a framework dependency.
+The **OptiKPI Push SDK** (`optikpi-push-sdk.js`) is a vanilla JavaScript library that enables web push notification delivery using the **Web Push API** and **Service Workers**. It exposes a **`PushSDK`** class and is designed to run in any modern browser without a framework dependency.
 
 ## How It Works
 
-```flow
-  Browser                     OptikPI Server
-  ───────                     ──────────────
-  SDK Init
+```text
+  Browser                     OptiKPI Push Server
+  ───────                     ───────────────────
+  new PushSDK(key, endpoint)
      │
-     ├─► Request Notification Permission
+  init()
+     ├─► requestNotificationPermission()
      │       │
-     │       └─► granted ──► Subscribe to Push Manager
+     │       └─► granted ──► registerServiceWorker()
      │                            │
-     │                            └─► Send subscription to OptikPI
-     │                                  (endpoint + keys saved)
+     │                            └─► subscribeUser() (PushManager)
+     │                                      │
+     │                                      └─► sendSubscriptionToServer(subscription)
+     │                                                POST {originURL}/storeSubscription
      │
-  User visits page
-     │
-     ├─► Fetch pending messages from server
-     │       │
-     │       └─► Display web push notification via Service Worker
-     │
+  On user login
+     └─► registerPushToken(userId, customerId)
+               POST {originURL}/associatePlayer
+               body: { userId, subscription, workspaceId: customerId }
+
+  On user logout
+     └─► unRegisterPushToken(userId, customerId)
+               POST {originURL}/disassociatePlayer
+               body: { userId, subscription, workspaceId: customerId }
+
   Service Worker (background)
-     ├─► Receives push event ──► show notification
-     └─► Notification click ──► open URL / track event
+     └─► push event ──► showNotification(title, options)
 ```
 
-## Versions
+## Constructor
 
-| Version | Technology                     | File                          | Status        |
-| ------- | ------------------------------ | ----------------------------- | ------------- |
-| Current | Web Push API + Service Worker  | `optikpi-push-sdk.js`         | ✅ Active     |
-| Legacy  | Firebase Cloud Messaging (FCM) | `firebase-message-tracker.js` | ⚠️ Deprecated |
+The SDK uses a **`PushSDK`** class with three arguments:
 
-The current SDK does **not** depend on Firebase. The legacy FCM integration is maintained for backward compatibility only.
+| Argument            | Type   | Required | Default                        | Description                        |
+| ------------------- | ------ | -------- | ------------------------------ | ---------------------------------- |
+| optiKPIPushKey      | string | ✅       | —                              | VAPID/public key (base64) for push |
+| originURL           | string | ❌       | "https://push.optikpi.com"     | Push server base URL               |
+| serviceWorkerPath   | string | ❌       | "/optikpi-service-worker.js"   | Path to the service worker file    |
+
+## Key Features
+
+- **Permission and subscribe on init** — `init()` requests notification permission, then subscribes and sends the subscription to the server.
+- **VAPID / application server key** — Uses the provided key for secure push subscription.
+- **Service Worker registration** — Registers and uses `optikpi-service-worker.js` for push events.
+- **Associate / disassociate user** — `registerPushToken(userId, customerId)` on login and `unRegisterPushToken(userId, customerId)` on logout to link the subscription to a user and workspace.
+
+## Quick Start
+
+```html
+<script src="/optikpi-push-sdk.js"></script>
+<script>
+  const OPTIKPI_PUSH_KEY = "YOUR_VAPID_PUBLIC_KEY";
+  const OPTIKPI_PUSH_END_POINT = "https://push.optikpi.com";
+  window.optiKPIPushSDK = new PushSDK(OPTIKPI_PUSH_KEY, OPTIKPI_PUSH_END_POINT);
+  window.optiKPIPushSDK.init();
+
+  function onLogin(userId, customerId) {
+    window.optiKPIPushSDK.registerPushToken(userId, customerId);
+  }
+  function onLogout(userId, customerId) {
+    window.optiKPIPushSDK.unRegisterPushToken(userId, customerId);
+  }
+</script>
+```
 
 ## Browser Compatibility
 
@@ -47,37 +80,8 @@ The current SDK does **not** depend on Firebase. The legacy FCM integration is m
 | Opera 37+   | ✅ Full             |
 
 ::: warning
-Push notifications require a **secure context (HTTPS)** or `localhost`. HTTP websites cannot use the Push API.
+Push notifications require a **secure context (HTTPS)** or `localhost`. HTTP sites cannot use the Push API.
 :::
-
-## Key Features
-
-- **Automatic permission request** with user-first prompting
-- **VAPID authentication** for secure server-to-browser push
-- **Automatic re-subscription** if push subscription expires
-- **Message inbox** — fetches undelivered messages on page load
-- **Click tracking** — records notification clicks via postMessage
-- **Custom data payloads** — supports title, body, icon, badge, URL, image
-- **Service Worker registration** — manages `optikpi-service-worker.js` lifecycle
-
-## Quick Start
-
-```html
-<!-- 1. Include the SDK -->
-<script src="https://cdn.your-domain.com/optikpi-push-sdk.js"></script>
-
-<!-- 2. Initialize -->
-<script>
-  const push = new OptikpiPush({
-    workspaceId: 'ws_abc123',
-    apiUrl: 'https://your-optikpi-instance.com',
-    vapidPublicKey: 'YOUR_VAPID_PUBLIC_KEY',
-    serviceWorkerPath: '/optikpi-service-worker.js'
-  });
-
-  push.init();
-</script>
-```
 
 - [Installation Guide →](/push-sdk/installation)
 - [API Reference →](/push-sdk/api-reference)

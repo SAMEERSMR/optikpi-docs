@@ -22,14 +22,39 @@ Retrieve all roles defined for the current account.
         "label": "Administrator",
         "isSystem": true,
         "permissions": {
-          "campaigns": { "view": true, "create": true, "edit": true, "delete": true },
-          "workflows": { "view": true, "create": true, "edit": true, "delete": true },
-          "audience": { "view": true, "create": true, "edit": true, "delete": true },
-          "library": { "view": true, "create": true, "edit": true, "delete": true },
+          "campaigns": {
+            "view": true,
+            "create": true,
+            "edit": true,
+            "delete": true
+          },
+          "workflows": {
+            "view": true,
+            "create": true,
+            "edit": true,
+            "delete": true
+          },
+          "audience": {
+            "view": true,
+            "create": true,
+            "edit": true,
+            "delete": true
+          },
+          "library": {
+            "view": true,
+            "create": true,
+            "edit": true,
+            "delete": true
+          },
           "reports": { "view": true, "create": true, "delete": true },
           "integrations": { "view": true, "create": true, "delete": true },
           "workspace": { "view": true, "edit": true },
-          "users": { "view": true, "invite": true, "edit": true, "delete": true }
+          "users": {
+            "view": true,
+            "invite": true,
+            "edit": true,
+            "delete": true
+          }
         },
         "createdAt": "2023-06-01T00:00:00.000Z"
       },
@@ -39,14 +64,39 @@ Retrieve all roles defined for the current account.
         "label": "Editor",
         "isSystem": false,
         "permissions": {
-          "campaigns": { "view": true, "create": true, "edit": true, "delete": false },
-          "workflows": { "view": true, "create": true, "edit": true, "delete": false },
-          "audience": { "view": true, "create": true, "edit": true, "delete": false },
-          "library": { "view": true, "create": true, "edit": true, "delete": false },
+          "campaigns": {
+            "view": true,
+            "create": true,
+            "edit": true,
+            "delete": false
+          },
+          "workflows": {
+            "view": true,
+            "create": true,
+            "edit": true,
+            "delete": false
+          },
+          "audience": {
+            "view": true,
+            "create": true,
+            "edit": true,
+            "delete": false
+          },
+          "library": {
+            "view": true,
+            "create": true,
+            "edit": true,
+            "delete": false
+          },
           "reports": { "view": true, "create": true, "delete": false },
           "integrations": { "view": true, "create": false, "delete": false },
           "workspace": { "view": true, "edit": false },
-          "users": { "view": true, "invite": false, "edit": false, "delete": false }
+          "users": {
+            "view": true,
+            "invite": false,
+            "edit": false,
+            "delete": false
+          }
         }
       }
     ],
@@ -64,11 +114,11 @@ Update the permission set for an existing role.
 
 ### Request Body
 
-| Field         | Type     | Required | Description                         |
-| ------------- | -------- | -------- | ----------------------------------- |
-| `type`        | `string` | ✅       | Must be `"UPDATE_ROLE_PERMISSIONS"` |
-| `roleId`      | `string` | ✅       | Role ID to update                   |
-| `permissions` | `object` | ✅       | New permissions object              |
+| Field       | Type   | Required | Description                       |
+| ----------- | ------ | -------- | --------------------------------- |
+| type        | string | ✅       | Must be "UPDATE_ROLE_PERMISSIONS" |
+| roleId      | string | ✅       | Role ID to update                 |
+| permissions | object | ✅       | New permissions object            |
 
 ### Request
 
@@ -78,7 +128,12 @@ Update the permission set for an existing role.
   "roleId": "role_def456",
   "permissions": {
     "campaigns": { "view": true, "create": true, "edit": true, "delete": true },
-    "workflows": { "view": true, "create": true, "edit": false, "delete": false }
+    "workflows": {
+      "view": true,
+      "create": true,
+      "edit": false,
+      "delete": false
+    }
   }
 }
 ```
@@ -107,12 +162,12 @@ Rename an existing custom role.
 
 ### Request Body
 
-| Field    | Type     | Required | Description                        |
-| -------- | -------- | -------- | ---------------------------------- |
-| `type`   | `string` | ✅       | Must be `"UPDATE_ROLE"`            |
-| `roleId` | `string` | ✅       | Role ID to rename                  |
-| `name`   | `string` | ❌       | New internal role name (uppercase) |
-| `label`  | `string` | ❌       | New display label                  |
+| Field  | Type   | Required | Description                        |
+| ------ | ------ | -------- | ---------------------------------- |
+| type   | string | ✅       | Must be "UPDATE_ROLE"              |
+| roleId | string | ✅       | Role ID to rename                  |
+| name   | string | ❌       | New internal role name (uppercase) |
+| label  | string | ❌       | New display label                  |
 
 ### Request
 
@@ -148,11 +203,11 @@ Delete a custom role. System roles (`ADMIN`, `VIEWER`) cannot be deleted.
 
 ### Request Body
 
-| Field              | Type     | Required | Description                           |
-| ------------------ | -------- | -------- | ------------------------------------- |
-| `type`             | `string` | ✅       | Must be `"DELETE_ROLE"`               |
-| `roleId`           | `string` | ✅       | Role ID to delete                     |
-| `reassignToRoleId` | `string` | ✅       | Role ID to reassign affected users to |
+| Field            | Type   | Required | Description                           |
+| ---------------- | ------ | -------- | ------------------------------------- |
+| type             | string | ✅       | Must be "DELETE_ROLE"                 |
+| roleId           | string | ✅       | Role ID to delete                     |
+| reassignToRoleId | string | ✅       | Role ID to reassign affected users to |
 
 ### Request
 
@@ -178,23 +233,23 @@ Delete a custom role. System roles (`ADMIN`, `VIEWER`) cannot be deleted.
 
 ## Default System Roles
 
-| Role     | Description                                                             |
-| -------- | ----------------------------------------------------------------------- |
-| `ADMIN`  | Full access to all features. Cannot be deleted or modified.             |
-| `EDITOR` | Can create and edit content. Cannot manage users or workspace settings. |
-| `VIEWER` | Read-only access to all features. Cannot create or edit.                |
+| Role   | Description                                                             |
+| ------ | ----------------------------------------------------------------------- |
+| ADMIN  | Full access to all features. Cannot be deleted or modified.             |
+| EDITOR | Can create and edit content. Cannot manage users or workspace settings. |
+| VIEWER | Read-only access to all features. Cannot create or edit.                |
 
 ## Permissions Schema
 
 Each module supports these permission actions:
 
-| Action   | Description                                  |
-| -------- | -------------------------------------------- |
-| `view`   | Read access — list and view resource details |
-| `create` | Create new resources                         |
-| `edit`   | Modify existing resources                    |
-| `delete` | Delete resources                             |
-| `invite` | Invite new users (users module only)         |
+| Action | Description                                  |
+| ------ | -------------------------------------------- |
+| view   | Read access — list and view resource details |
+| create | Create new resources                         |
+| edit   | Modify existing resources                    |
+| delete | Delete resources                             |
+| invite | Invite new users (users module only)         |
 
 ::: tip
 Permissions are loaded into the `RolePermissionsContext` on the frontend at app startup and used to conditionally render UI elements.

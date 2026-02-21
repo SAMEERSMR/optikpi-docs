@@ -12,12 +12,12 @@ Retrieve aggregated engagement data for the dashboard overview.
 
 ### Query Parameters
 
-| Parameter   | Type     | Required | Description                                                 |
-| ----------- | -------- | -------- | ----------------------------------------------------------- |
-| `dateRange` | `string` | ❌       | Preset range: `7d`, `30d`, `90d`, `custom` (default: `30d`) |
-| `startDate` | `string` | ❌       | Start date `YYYY-MM-DD` (required for `custom`)             |
-| `endDate`   | `string` | ❌       | End date `YYYY-MM-DD` (required for `custom`)               |
-| `channel`   | `string` | ❌       | Filter by channel: `EMAIL`, `SMS`, `PUSH` (default: all)    |
+| Parameter | Type   | Required | Description                                        |
+| --------- | ------ | -------- | -------------------------------------------------- |
+| dateRange | string | ❌       | Preset range: 7d, 30d, 90d, custom (default: 30d)  |
+| startDate | string | ❌       | Start date YYYY-MM-DD (required for custom)        |
+| endDate   | string | ❌       | End date YYYY-MM-DD (required for custom)          |
+| channel   | string | ❌       | Filter by channel: EMAIL, SMS, PUSH (default: all) |
 
 ### Response
 
@@ -93,35 +93,35 @@ Retrieve aggregated engagement data for the dashboard overview.
 
 ### Summary Metrics
 
-| Field            | Type     | Description                             |
-| ---------------- | -------- | --------------------------------------- |
-| `totalSent`      | `number` | Total messages sent across all channels |
-| `totalDelivered` | `number` | Total successfully delivered            |
-| `totalOpened`    | `number` | Total unique opens (email only)         |
-| `totalClicked`   | `number` | Total unique link clicks                |
-| `deliveryRate`   | `number` | `(delivered / sent) * 100`              |
-| `openRate`       | `number` | `(opened / delivered) * 100`            |
-| `clickRate`      | `number` | `(clicked / delivered) * 100`           |
+| Field          | Type   | Description                             |
+| -------------- | ------ | --------------------------------------- |
+| totalSent      | number | Total messages sent across all channels |
+| totalDelivered | number | Total successfully delivered            |
+| totalOpened    | number | Total unique opens (email only)         |
+| totalClicked   | number | Total unique link clicks                |
+| deliveryRate   | number | (delivered / sent) \* 100               |
+| openRate       | number | (opened / delivered) \* 100             |
+| clickRate      | number | (clicked / delivered) \* 100            |
 
 ### Time Series Entry
 
-| Field       | Type     | Description                     |
-| ----------- | -------- | ------------------------------- |
-| `date`      | `string` | Date in `YYYY-MM-DD` format     |
-| `sent`      | `number` | Messages sent on this date      |
-| `delivered` | `number` | Messages delivered on this date |
-| `opened`    | `number` | Opens on this date              |
-| `clicked`   | `number` | Clicks on this date             |
+| Field     | Type   | Description                     |
+| --------- | ------ | ------------------------------- |
+| date      | string | Date in YYYY-MM-DD format       |
+| sent      | number | Messages sent on this date      |
+| delivered | number | Messages delivered on this date |
+| opened    | number | Opens on this date              |
+| clicked   | number | Clicks on this date             |
 
 ### Top Campaigns
 
 Returns up to 5 best-performing campaigns sorted by click rate.
 
-| Field       | Type     | Description             |
-| ----------- | -------- | ----------------------- |
-| `id`        | `string` | Campaign ID             |
-| `name`      | `string` | Campaign name           |
-| `channel`   | `string` | Delivery channel        |
-| `sent`      | `number` | Number of messages sent |
-| `openRate`  | `number` | Open rate percentage    |
-| `clickRate` | `number` | Click rate percentage   |
+| Field     | Type   | Description             |
+| --------- | ------ | ----------------------- |
+| id        | string | Campaign ID             |
+| name      | string | Campaign name           |
+| channel   | string | Delivery channel        |
+| sent      | number | Number of messages sent |
+| openRate  | number | Open rate percentage    |
+| clickRate | number | Click rate percentage   |

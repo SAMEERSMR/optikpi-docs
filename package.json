@@ -1,7 +1,7 @@
 {
   "name": "optikpi-docs",
   "version": "1.0.0",
-  "description": "Official API documentation for OptikPI Marketing Automation Platform",
+  "description": "Official API documentation for OptiKPI Marketing Automation Platform",
   "type": "module",
   "private": true,
   "scripts": {
