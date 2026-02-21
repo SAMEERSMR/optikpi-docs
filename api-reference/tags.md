@@ -6,92 +6,84 @@ Tags are workspace-wide labels used to organize audiences, campaigns, workflows,
 
 ## List Tags
 
-Retrieve all tags for the current workspace.
+Retrieve tags for the current workspace. The Tags API uses a **flat** response (no `result` wrapper).
 
 **`GET /{locale}/api/tags`**
 
 ### Query Parameters
 
-| Parameter | Type     | Required | Description                                |
-| --------- | -------- | -------- | ------------------------------------------ |
-| `search`  | `string` | ❌       | Filter by tag name (partial match)         |
-| `page`    | `number` | ❌       | Page number (default: `1`)                 |
-| `limit`   | `number` | ❌       | Records per page (default: `50`, max `50`) |
+| Parameter    | Type     | Required | Description                                                     |
+| ------------ | -------- | -------- | --------------------------------------------------------------- |
+| `tagName`    | `string` | ❌       | Filter by tag name (partial match, case-insensitive)            |
+| `moduleName` | `string` | ❌       | Filter by module: `campaign`, `audience`, `library`, `workflow` |
+| `page`       | `number` | ❌       | Page number (default: `1`)                                      |
+| `pageSize`   | `number` | ❌       | Records per page (default: `8`)                                 |
 
-### Response
+### Request Headers
+
+| Header        | Description                             |
+| ------------- | --------------------------------------- |
+| `workSpaceId` | Active workspace ID (set by middleware) |
+
+### Response (200)
 
 ```json
 {
   "data": [
-    {
-      "id": "tag_abc123",
-      "name": "vip",
-      "color": "#07388A",
-      "usageCount": 12,
-      "createdAt": "2024-07-01T10:00:00.000Z"
-    },
-    {
-      "id": "tag_def456",
-      "name": "churned",
-      "color": "#D92D20",
-      "usageCount": 5,
-      "createdAt": "2024-08-15T08:00:00.000Z"
-    }
+    { "id": "tag_abc123", "name": "vip" },
+    { "id": "tag_def456", "name": "churned" }
   ],
-  "message": "Tags fetched successfully",
+  "message": "Successful.",
   "status": 200,
   "totalCount": 2
 }
 ```
 
-::: tip Note
-The Tags API returns a **flat** response — there is no `result` wrapper. The `data` field is directly at the top level of the response object.
+::: tip
+The Tags API returns a **flat** response — there is no `result` wrapper. Each tag in `data` includes `id` and `name`.
 :::
 
 ## Delete Tag
 
-Delete a single tag by ID. This removes the tag from the workspace and from all resources that reference it.
+Soft-delete a tag by name and module. Uses **query parameters**, not a request body.
 
 **`DELETE /{locale}/api/tags`**
 
-### Request Body
+### Query Parameters
 
-| Field | Type     | Required | Description      |
-| ----- | -------- | -------- | ---------------- |
-| `id`  | `string` | ✅       | Tag ID to delete |
+| Parameter    | Type     | Required | Description                                                    |
+| ------------ | -------- | -------- | -------------------------------------------------------------- |
+| `tagName`    | `string` | ✅       | Tag name to delete                                             |
+| `moduleName` | `string` | ✅       | Module scope: `campaign`, `audience`, `library`, or `workflow` |
 
-### Request
+### Example
+
+```http
+DELETE /{locale}/api/tags?tagName=vip&moduleName=campaign
+```
+
+### Response (200)
 
 ```json
 {
-  "id": "tag_abc123"
+  "result": {
+    "data": { "count": 1 },
+    "message": "Tag delete successfully."
+  }
 }
 ```
 
-### Response
+**Errors:** 500 `{ "result": { "data": null, "message": "Could not delete tag.", "error": "..." } }`.
 
-```json
-{
-  "data": null,
-  "message": "Tag deleted successfully",
-  "status": 200
-}
-```
+## Tag Object (List)
 
-## Tag Object
-
-| Field         | Type             | Description                            |
-| ------------- | ---------------- | -------------------------------------- |
-| `id`          | `string`         | Unique tag ID                          |
-| `name`        | `string`         | Tag label (lowercase, no spaces)       |
-| `color`       | `string \| null` | Optional color hex code for UI display |
-| `usageCount`  | `number`         | Number of resources using this tag     |
-| `workspaceId` | `string`         | Owning workspace ID                    |
-| `createdAt`   | `string`         | ISO 8601 creation timestamp            |
+| Field  | Type     | Description   |
+| ------ | -------- | ------------- |
+| `id`   | `string` | Unique tag ID |
+| `name` | `string` | Tag label     |
 
 ## Tag Naming Rules
 
-- Tags are **lowercase** and **trimmed** automatically
-- Spaces are replaced with hyphens: `"high value"` → `"high-value"`
-- Max length: **50 characters**
-- Must be unique within a workspace
+- Tag name is **trimmed** when provided in queries
+- Filtering is **case-insensitive**
+- Must be unique within a workspace per module

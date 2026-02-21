@@ -1,130 +1,58 @@
 # Service Worker
 
-`optikpi-service-worker.js` handles background push events, notification display, and click tracking. It must be deployed at the **root** of your web server.
+`optikpi-service-worker.js` handles the **push** event and displays notifications. It must be served at the path you pass to `PushSDK` (typically the root: `/optikpi-service-worker.js`).
 
 ## Responsibilities
 
-| Event               | Description                                                                  |
-| ------------------- | ---------------------------------------------------------------------------- |
-| `install`           | Activates the service worker immediately on install                          |
-| `activate`          | Claims all open clients so the SW takes effect without a page reload         |
-| `push`              | Receives push payloads from the browser push service and shows notifications |
-| `notificationclick` | Handles notification clicks — opens the target URL and tracks the click      |
-| `message`           | Receives messages from the main page (e.g. track-click commands)             |
+| Event  | Description                                                                   |
+| ------ | ----------------------------------------------------------------------------- |
+| `push` | Receives push payloads from the browser push service and shows a notification |
+
+::: info
+The current service worker does **not** implement `install`, `activate`, or `notificationclick`. Click behavior (open URL, track click) is not implemented in the shipped file; the `notificationclick` handler is commented out.
+:::
 
 ## Push Event
 
-When a push message arrives from the server, the service worker parses the payload and calls `showNotification()`:
+When a push message arrives, the service worker parses the payload as JSON and calls `showNotification`:
 
 ```javascript
-self.addEventListener('push', (event) => {
-  const data = event.data ? event.data.json() : {};
-
+self.addEventListener("push", function (event) {
+  const notificationData = event.data.json();
+  const title = notificationData?.title || "Push Notification";
   const options = {
-    body: data.body || '',
-    icon: data.icon || '/icons/icon-192.png',
-    badge: data.badge || '/icons/badge-72.png',
-    image: data.image,
-    data: {
-      url: data.url || '/',
-      messageId: data.id
-    },
-    actions: data.actions || []
+    badge: notificationData?.badge,
+    body: notificationData?.body,
+    data: notificationData?.data,
+    icon: notificationData?.icon,
+    image: notificationData?.image,
+    title: notificationData?.title,
+    lang: notificationData?.lang,
   };
-
-  event.waitUntil(self.registration.showNotification(data.title || 'OptikPI', options));
-});
-```
-
-## Notification Click Event
-
-When a user clicks a notification, the service worker:
-
-1. Closes the notification
-2. Focuses an existing open tab at the target URL (if one exists)
-3. Opens a new tab if no matching tab is found
-4. Posts a `track-click` message back to the SDK
-
-```javascript
-self.addEventListener('notificationclick', (event) => {
-  event.notification.close();
-
-  const targetUrl = event.notification.data?.url || '/';
-  const messageId = event.notification.data?.messageId;
-
-  event.waitUntil(
-    clients.matchAll({ type: 'window', includeUncontrolled: true }).then((clientList) => {
-      // Focus existing tab if open
-      for (const client of clientList) {
-        if (client.url === targetUrl && 'focus' in client) {
-          client.postMessage({ type: 'track-click', messageId });
-          return client.focus();
-        }
-      }
-      // Otherwise open a new window
-      if (clients.openWindow) {
-        return clients.openWindow(targetUrl).then((client) => {
-          if (client) client.postMessage({ type: 'track-click', messageId });
-        });
-      }
-    })
-  );
+  event.waitUntil(self.registration.showNotification(title, options));
 });
 ```
 
 ## Notification Payload Schema
 
-The push payload sent from the OptikPI server must be a JSON object:
+The push payload from the server should be a JSON object with the following fields (all optional except you typically want `title` and/or `body`):
 
-```json
-{
-  "id": "msg_abc123",
-  "title": "Flash Sale — 50% Off Today Only",
-  "body": "Use code FLASH50 at checkout. Limited time offer.",
-  "icon": "https://cdn.example.com/icon-192.png",
-  "badge": "https://cdn.example.com/badge-72.png",
-  "image": "https://cdn.example.com/banner.jpg",
-  "url": "https://example.com/sale",
-  "actions": [
-    { "action": "open", "title": "Shop Now" },
-    { "action": "dismiss", "title": "Dismiss" }
-  ]
-}
-```
-
-| Field     | Type     | Required | Description                                   |
-| --------- | -------- | -------- | --------------------------------------------- |
-| `id`      | `string` | ✅       | Unique message identifier for click tracking  |
-| `title`   | `string` | ✅       | Notification title                            |
-| `body`    | `string` | ✅       | Notification body text                        |
-| `icon`    | `string` | ❌       | Icon image URL (recommended: 192×192 PNG)     |
-| `badge`   | `string` | ❌       | Monochrome badge URL (recommended: 72×72 PNG) |
-| `image`   | `string` | ❌       | Large hero image URL                          |
-| `url`     | `string` | ❌       | URL to open on click (defaults to `/`)        |
-| `actions` | `array`  | ❌       | Up to 2 action buttons                        |
+| Field   | Type     | Description                                       |
+| ------- | -------- | ------------------------------------------------- |
+| `title` | `string` | Notification title (default: "Push Notification") |
+| `body`  | `string` | Body text                                         |
+| `icon`  | `string` | Icon image URL                                    |
+| `badge` | `string` | Badge image URL                                   |
+| `image` | `string` | Large image URL                                   |
+| `data`  | `object` | Custom data (passed to `options.data`)            |
+| `lang`  | `string` | Language for the notification                     |
 
 ## Debugging
 
-Enable service worker debug logging in Chrome DevTools:
-
 1. Open **DevTools → Application → Service Workers**
-2. Check **"Update on reload"** during development
-3. Click **"Inspect"** next to your service worker to open its DevTools console
-
-You can also test push events directly from the DevTools panel:
-
-```flow
-Application → Service Workers → Push (text field) → Push button
-```
+2. Check **Update on reload** during development
+3. Click **Inspect** next to the service worker to see its console
 
 ::: warning
-Service workers are updated lazily by the browser. During development, check **"Update on reload"** in DevTools to force the latest version to activate.
-:::
-
-## Legacy FCM Integration
-
-The legacy `firebase-message-tracker.js` uses **Firebase Cloud Messaging (FCM)** as the push transport instead of the native Web Push API. It requires a Firebase project and `firebase-messaging-sw.js` service worker.
-
-::: danger Deprecated
-The FCM integration is deprecated and maintained for backward compatibility only. All new integrations should use the current Web Push API-based SDK described in this documentation.
+Service workers update lazily. During development, use **Update on reload** in DevTools to activate the latest version quickly.
 :::

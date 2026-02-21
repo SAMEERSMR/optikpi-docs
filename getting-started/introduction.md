@@ -6,7 +6,7 @@ OptikPI is a full-stack marketing automation platform built on **Next.js 14**. I
 
 OptikPI is structured as a Next.js application with locale-prefixed API routes. All API endpoints follow this base path pattern:
 
-```url
+```http
 /{locale}/api/{resource}
 ```
 
@@ -39,7 +39,7 @@ Every user belongs to a **Workspace**. A workspace is an organizational unit tha
 
 ### Locale
 
-The application supports multiple locales (English `en`, Arabic `ar`, etc.). Locale is part of the URL path and is used to localize responses and UI labels. The middleware extracts the active locale from the session and routes requests accordingly.
+The application supports multiple locales. Locale is part of the URL path and is used to localize responses and UI labels. Supported values: `en`, `es`, `zh-CN`, `zh-TW`, `th`, `vi`, `ru`, `pt`. The middleware extracts the active locale from the session and routes requests accordingly.
 
 ### Session Headers
 

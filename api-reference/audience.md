@@ -6,227 +6,154 @@ Audience endpoints allow you to create, list, update, and delete audience segmen
 
 ## List Audiences
 
-Retrieve a paginated list of audiences for the current workspace.
+Retrieve a paginated list of audiences for the current workspace. This endpoint returns a **flat** response (no `result` wrapper).
 
 **`GET /{locale}/api/audience`**
 
 ### Query Parameters
 
-| Parameter | Type     | Required | Description                                     |
-| --------- | -------- | -------- | ----------------------------------------------- |
-| `page`    | `number` | ❌       | Page number (default: `1`)                      |
-| `limit`   | `number` | ❌       | Records per page (default: `10`)                |
-| `search`  | `string` | ❌       | Filter by audience name                         |
-| `status`  | `string` | ❌       | Filter by status: `ACTIVE`, `DRAFT`, `ARCHIVED` |
-| `tab`     | `string` | ❌       | Tab filter: `all`, `active`, `draft`            |
+| Parameter           | Type     | Required | Description                                                   |
+| ------------------- | -------- | -------- | ------------------------------------------------------------- |
+| `page`              | `number` | ❌       | Page number (default: `1`)                                    |
+| `pageSize`          | `number` | ❌       | Records per page (default: `100`)                             |
+| `search`            | `string` | ❌       | Filter by audience name or tags                               |
+| `status`            | `string` | ❌       | JSON array of statuses, e.g. `["active","draft"]`             |
+| `tab`               | `string` | ❌       | Tab filter: `all`, `active`, `draft`, or `rfm`                |
+| `type`              | `string` | ❌       | JSON array of audience types                                  |
+| `tags`              | `string` | ❌       | JSON array of tag strings                                     |
+| `sort`              | `string` | ❌       | JSON sort object (default: `{ "createdAt": "desc" }`)         |
+| `excludeAudience`   | `string` | ❌       | When set, excludes the workspace's globally excluded audience |
+| `selectFields`      | `string` | ❌       | Comma-separated list of fields to return                      |
+| `isResourceCreated` | `string` | ❌       | JSON boolean to filter by resource-created flag               |
 
 ### Request Headers
 
 | Header        | Description                             |
 | ------------- | --------------------------------------- |
 | `workSpaceId` | Active workspace ID (set by middleware) |
-| `accountId`   | Account ID (set by middleware)          |
+| `userId`      | User ID (set by middleware)             |
 
-### Response
+### Response (200)
 
 ```json
 {
-  "result": {
-    "data": [
-      {
-        "id": "aud_abc123",
-        "name": "High Value Customers",
-        "description": "Customers with LTV > $500",
-        "status": "ACTIVE",
-        "contactCount": 15420,
-        "filterType": "SQL",
-        "tags": ["vip", "high-ltv"],
-        "createdAt": "2024-06-01T10:00:00.000Z",
-        "updatedAt": "2024-11-15T14:30:00.000Z"
-      }
-    ],
-    "message": "Audiences fetched successfully",
-    "status": 200,
-    "totalCount": 42
-  }
+  "records": [
+    {
+      "id": "aud_abc123",
+      "name": "High Value Customers",
+      "tags": ["vip", "high-ltv"],
+      "status": "active",
+      "groups": [],
+      "workspaceId": "ws_xyz789",
+      "audienceType": { "type": "static" },
+      "totalCustomers": 15420,
+      "unsubscribedCustomers": 0,
+      "scheduleId": null,
+      "groupType": null,
+      "activeCustomers": 15420,
+      "updatedAt": "2024-11-15T14:30:00.000Z",
+      "isResourceCreated": false
+    }
+  ],
+  "totalCount": 42
 }
 ```
+
+**Errors:** 401 `{ "message": "Invalid request" }` when `workSpaceId` or `userId` is missing; 500 on server error.
 
 ## Create Audience
 
-Create a new audience segment.
+Create a new audience segment. The API uses a **type-based** request body: include `type` and the fields for that operation.
 
 **`POST /{locale}/api/audience`**
 
-### Request Body
+### Create (type: AUDIENCE_CREATED)
 
-| Field         | Type       | Required | Description                                                         |
-| ------------- | ---------- | -------- | ------------------------------------------------------------------- |
-| `name`        | `string`   | ✅       | Audience display name                                               |
-| `description` | `string`   | ❌       | Optional description                                                |
-| `filterType`  | `string`   | ✅       | `SQL` or `BUILDER`                                                  |
-| `sqlQuery`    | `string`   | ❌       | Custom BigQuery SQL filter (required when `filterType` is `SQL`)    |
-| `filters`     | `object[]` | ❌       | Filter builder conditions (required when `filterType` is `BUILDER`) |
-| `tags`        | `string[]` | ❌       | Tag labels for organization                                         |
-| `status`      | `string`   | ❌       | Initial status — `DRAFT` (default) or `ACTIVE`                      |
-
-::: info
-Use `filterType: "SQL"` for advanced BigQuery filters, or `filterType: "BUILDER"` for visual filter builder conditions. Only one filter type is required per audience.
-:::
+| Field          | Type       | Required | Description                      |
+| -------------- | ---------- | -------- | -------------------------------- |
+| `type`         | `string`   | ✅       | Must be `AUDIENCE_CREATED`       |
+| `name`         | `string`   | ✅       | Audience display name            |
+| `tags`         | `string[]` | ✅       | Tag labels (array, can be empty) |
+| `groups`       | `array`    | ❌       | Audience filter groups           |
+| `groupType`    | `string`   | ❌       | Group type                       |
+| `audienceType` | `object`   | ❌       | e.g. `{ "type": "static" }`      |
 
 ### Request
 
 ```json
 {
+  "type": "AUDIENCE_CREATED",
   "name": "Churned Users — Last 90 Days",
-  "description": "Users who haven't made a purchase in 90 days",
-  "filterType": "SQL",
-  "sqlQuery": "SELECT customer_id FROM events WHERE last_purchase_date < DATE_SUB(CURRENT_DATE(), INTERVAL 90 DAY)",
   "tags": ["churned", "win-back"],
-  "status": "DRAFT"
+  "groups": [],
+  "audienceType": { "type": "static" }
 }
 ```
 
-### Response
+### Response (200)
 
-```json
-{
-  "result": {
-    "data": {
-      "id": "aud_xyz789",
-      "name": "Churned Users — Last 90 Days",
-      "status": "DRAFT",
-      "contactCount": 0,
-      "filterType": "SQL",
-      "createdAt": "2025-02-20T09:00:00.000Z"
-    },
-    "message": "Audience created successfully",
-    "status": 201
-  }
-}
-```
-
-## Update Audience
-
-Update an existing audience's properties.
-
-**`PUT /{locale}/api/audience`**
-
-### Request Body
-
-| Field         | Type       | Required | Description               |
-| ------------- | ---------- | -------- | ------------------------- |
-| `id`          | `string`   | ✅       | Audience ID to update     |
-| `name`        | `string`   | ❌       | New name                  |
-| `description` | `string`   | ❌       | New description           |
-| `sqlQuery`    | `string`   | ❌       | Updated SQL filter        |
-| `filters`     | `object[]` | ❌       | Updated filter conditions |
-| `tags`        | `string[]` | ❌       | Updated tag list          |
-| `status`      | `string`   | ❌       | New status                |
-
-### Request
+Returns the created audience object directly (no `result` wrapper):
 
 ```json
 {
   "id": "aud_xyz789",
-  "status": "ACTIVE",
-  "tags": ["churned", "win-back", "q1-campaign"]
+  "name": "Churned Users — Last 90 Days",
+  "tags": ["churned", "win-back"],
+  "workspaceId": "ws_abc123",
+  "groups": [],
+  "audienceType": { "type": "static" },
+  "isResourceCreated": false,
+  "deletedAt": null,
+  "createdAt": "2025-02-20T09:00:00.000Z",
+  "updatedAt": "2025-02-20T09:00:00.000Z"
 }
 ```
 
-### Response
+**Errors:** 400 `{ "message": "Invalid request" }` (missing name/tags or workSpaceId/userId); 400 `{ "message": "Audience with the same name already exists." }` (duplicate name); 401 `{ "message": "Invalid request" }`; 500 on server or tag creation error.
 
-```json
-{
-  "result": {
-    "data": {
-      "id": "aud_xyz789",
-      "name": "Churned Users — Last 90 Days",
-      "status": "ACTIVE",
-      "updatedAt": "2025-02-20T10:00:00.000Z"
-    },
-    "message": "Audience updated successfully",
-    "status": 200
-  }
-}
-```
+::: info
+Other audience operations (update name/tags, duplicate, full update, delete) use the same **POST** or **DELETE** endpoint with different `type` values and body shapes. The create flow above is the minimal required for a new audience.
+:::
+
+## Update Audience
+
+Updates are performed via **POST** (e.g. `type: AUDIENCE_NAME_TAG_UPDATE`, `AUDIENCE_UPDATED`) or **PUT** (e.g. `type: update-status`, `update-now`, `check-update-now-status`) with a `type` field and operation-specific body (e.g. `id`, `name`, `tags`, `groups`, `status`, `audienceType`). Responses return the updated audience or a success payload. 409 is returned when the audience is in use in a workflow or campaign.
 
 ## Delete Audiences
 
-Delete one or more audiences by ID.
-
 **`DELETE /{locale}/api/audience`**
 
-### Request Body
+Delete uses a **body** with `type`: `delete-single` (and query param `id`) or `delete-multiple` (body `selectedAudiences` array). Optional `tags` in body for tag cleanup. Responses include the deleted resource or tag result. 409 is returned when the audience is in use in a workflow or campaign.
 
-| Field | Type       | Required | Description                     |
-| ----- | ---------- | -------- | ------------------------------- |
-| `ids` | `string[]` | ✅       | Array of audience IDs to delete |
+**Example (delete single)**
 
-### Request
+```http
+DELETE /{locale}/api/audience?id=aud_abc123
+Content-Type: application/json
 
-```json
 {
-  "ids": ["aud_abc123", "aud_xyz789"]
+  "type": "delete-single",
+  "status": "active",
+  "tags": ["vip"]
 }
 ```
 
-### Response
+## Audience Object (List / Create response)
 
-```json
-{
-  "result": {
-    "data": { "deletedCount": 2 },
-    "message": "Audiences deleted successfully",
-    "status": 200
-  }
-}
-```
-
-## Audience Object
-
-| Field          | Type               | Description                       |
-| -------------- | ------------------ | --------------------------------- |
-| `id`           | `string`           | Unique audience ID                |
-| `name`         | `string`           | Display name                      |
-| `description`  | `string \| null`   | Optional description              |
-| `status`       | `string`           | `DRAFT` \| `ACTIVE` \| `ARCHIVED` |
-| `filterType`   | `string`           | `SQL` \| `BUILDER`                |
-| `sqlQuery`     | `string \| null`   | BigQuery SQL filter string        |
-| `filters`      | `object[] \| null` | Builder-mode filter conditions    |
-| `contactCount` | `number`           | Number of contacts in the segment |
-| `tags`         | `string[]`         | Associated tag labels             |
-| `workspaceId`  | `string`           | Owning workspace ID               |
-| `createdAt`    | `string`           | ISO 8601 creation timestamp       |
-| `updatedAt`    | `string`           | ISO 8601 last update timestamp    |
-
-## Filter Builder Conditions
-
-When `filterType` is `BUILDER`, filters is an array of condition objects:
-
-```json
-[
-  {
-    "field": "country",
-    "operator": "equals",
-    "value": "AE"
-  },
-  {
-    "field": "total_purchases",
-    "operator": "greater_than",
-    "value": 5
-  }
-]
-```
-
-| Operator       | Description          |
-| -------------- | -------------------- |
-| `equals`       | Exact match          |
-| `not_equals`   | Not equal            |
-| `contains`     | String contains      |
-| `greater_than` | Numeric greater than |
-| `less_than`    | Numeric less than    |
-| `in`           | Value is in array    |
-| `not_in`       | Value not in array   |
-| `is_null`      | Field is empty/null  |
-| `is_not_null`  | Field has a value    |
+| Field                   | Type             | Description                          |
+| ----------------------- | ---------------- | ------------------------------------ |
+| `id`                    | `string`         | Unique audience ID                   |
+| `name`                  | `string`         | Display name                         |
+| `tags`                  | `string[]`       | Tag labels                           |
+| `status`                | `string`         | e.g. `active`, `draft`               |
+| `groups`                | `array`          | Filter groups                        |
+| `workspaceId`           | `string`         | Owning workspace ID                  |
+| `audienceType`          | `object`         | e.g. `{ "type": "static" }`          |
+| `totalCustomers`        | `number`         | Total contacts in segment            |
+| `unsubscribedCustomers` | `number`         | Unsubscribed count                   |
+| `activeCustomers`       | `number`         | Active contact count                 |
+| `scheduleId`            | `string \| null` | Schedule ID if scheduled             |
+| `groupType`             | `string \| null` | Group type                           |
+| `isResourceCreated`     | `boolean`        | Whether created as resource          |
+| `updatedAt`             | `string`         | ISO 8601 last update timestamp       |
+| `createdAt`             | `string`         | ISO 8601 creation timestamp (create) |

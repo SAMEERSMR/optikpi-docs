@@ -112,17 +112,41 @@ The Tags API and a few other utility endpoints return a **flat** response (no `r
 
 ## Pagination
 
-List endpoints that support pagination accept `page` and `limit` query parameters and return `totalCount` in the response to allow calculating total pages.
+List endpoints that support pagination accept `page` and `pageSize` query parameters and return `totalCount` (or equivalent) in the response to allow calculating total pages.
 
 ```http
-GET /{locale}/api/audience?page=1&limit=20
+GET /{locale}/api/audience?page=1&pageSize=20
 ```
 
-| Query Param | Type     | Default | Description                |
-| ----------- | -------- | ------- | -------------------------- |
-| `page`      | `number` | `1`     | Page number (1-indexed)    |
-| `limit`     | `number` | `10`    | Number of records per page |
+| Query Param | Type     | Default | Description                                         |
+| ----------- | -------- | ------- | --------------------------------------------------- |
+| `page`      | `number` | `1`     | Page number (1-indexed)                             |
+| `pageSize`  | `number` | varies  | Records per page (e.g. Audience: 100, Campaign: 10) |
 
 ::: tip
-The `totalCount` field represents the total number of records matching the query — not the number of items in the current page.
+The `totalCount` field represents the total number of records matching the query — not the number of items in the current page. Default `pageSize` can differ by endpoint; check each API reference.
+:::
+
+## Audience List — Different Response Shape
+
+The **GET** `/{locale}/api/audience` endpoint returns a **flat** object (no `result` wrapper):
+
+```json
+{
+  "records": [
+    {
+      "id": "aud_abc123",
+      "name": "High Value Customers",
+      "tags": ["vip"],
+      "status": "active",
+      "totalCustomers": 15420,
+      "updatedAt": "2024-11-15T14:30:00.000Z"
+    }
+  ],
+  "totalCount": 42
+}
+```
+
+::: info
+Other list endpoints may use the standard `result.data` envelope or a flat shape. Check the specific API reference for each endpoint.
 :::
