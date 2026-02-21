@@ -26,7 +26,7 @@
     --vp-c-border-cell: rgba(0, 0, 0, 0.08);
     --vp-c-inline-code-bg: #E8EEF7;
     --vp-c-inline-code-text: #07388a;
-    --vp-c-inline-code-border: #B8C9E0;
+    --vp-c-inline-code-border: rgba(7, 56, 138, 0.12);
     --vp-c-table-head: #213547;
     --vp-c-table-row-hover: rgba(0, 0, 0, 0.02);
     --vp-c-tabs-inactive: #667085;
@@ -108,9 +108,9 @@
     --vp-c-border-cell: rgba(255, 255, 255, 0.08);
     --vp-c-nav-border: rgba(255, 255, 255, 0.07);
     --vp-c-sidebar-border: rgba(255, 255, 255, 0.06);
-    --vp-c-inline-code-bg: rgba(91, 130, 196, 0.15);
+    --vp-c-inline-code-bg: rgba(91, 130, 196, 0.12);
     --vp-c-inline-code-text: #90b4e8;
-    --vp-c-inline-code-border: rgba(91, 130, 196, 0.2);
+    --vp-c-inline-code-border: rgba(91, 130, 196, 0.15);
     --vp-c-table-row-hover: rgba(255, 255, 255, 0.04);
     --vp-c-tabs-inactive: #a0aec0;
     --vp-c-tip-border: rgba(16, 185, 129, 0.35);
@@ -393,7 +393,7 @@ div[class*='language-']::before {
 
 :root :not(pre)>code {
     font-size: 0.84em;
-    padding: 2px 7px;
+    padding: 2px 6px;
     border-radius: 4px;
     background-color: var(--vp-c-inline-code-bg);
     color: var(--vp-c-inline-code-text);
@@ -401,7 +401,7 @@ div[class*='language-']::before {
     border: 1px solid var(--vp-c-inline-code-border);
     display: inline-block;
     line-height: 1.5;
-    margin: 2px 1px;
+    margin: 0 1px;
     vertical-align: middle;
 }
 
@@ -1043,4 +1043,53 @@ div[class*='language-']::before {
 
 ::-webkit-scrollbar-thumb:hover {
     background: var(--vp-c-brand-3);
+}
+
+.vp-doc .sdk-card-group {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+@media (max-width: 768px) {
+    .vp-doc .sdk-card-group {
+        grid-template-columns: 1fr;
+    }
+}
+
+.vp-doc .sdk-card {
+    display: block;
+    padding: 1.25rem 1.5rem;
+    border-radius: 12px;
+    border: 1px solid var(--vp-c-border-strong);
+    background: var(--vp-c-bg-soft);
+    color: var(--vp-c-text-1);
+    text-decoration: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.vp-doc .sdk-card:hover {
+    border-color: var(--vp-c-brand-1);
+    box-shadow: 0 4px 12px var(--vp-c-brand-soft);
+}
+
+.vp-doc .sdk-card .sdk-card-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin: 0 0 0.35em;
+    color: var(--vp-c-text-1);
+}
+
+.vp-doc .sdk-card .sdk-card-desc {
+    font-size: 0.9rem;
+    color: var(--vp-c-text-2);
+    margin: 0;
+    line-height: 1.5;
+}
+
+.vp-doc .sdk-card .sdk-card-icon {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    line-height: 1;
 }

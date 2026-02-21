@@ -15,7 +15,7 @@ export default defineConfig({
   cleanUrls: true,
   lastUpdated: true,
 
-  ignoreDeadLinks: [/^http:\/\/localhost/, /^https?:\/\/.+/],
+  ignoreDeadLinks: [/^http:\/\/localhost/, /^https?:\/\/.+/, /^\.\/.+/],
 
   rewrites: {
     "": "getting-started/introduction",
@@ -67,6 +67,7 @@ export default defineConfig({
 
     nav: [
       { text: "Getting Started", link: "/getting-started/introduction" },
+      { text: "Data Pipeline SDK", link: "/data-pipeline-sdk/overview" },
       { text: "Push SDK", link: "/push-sdk/overview" },
       { text: "API Reference", link: "/api-reference/user" },
     ],
@@ -78,6 +79,37 @@ export default defineConfig({
           { text: "Introduction", link: "/getting-started/introduction" },
           { text: "Authentication", link: "/getting-started/authentication" },
           { text: "Response Format", link: "/getting-started/response-format" },
+        ],
+      },
+      {
+        text: "Data Pipeline SDK",
+        collapsed: false,
+        items: [
+          {
+            text: "Overall",
+            collapsed: false,
+            items: [{ text: "Overview", link: "/data-pipeline-sdk/overview" }],
+          },
+          {
+            text: "Official",
+            collapsed: false,
+            items: [
+              { text: "JavaScript", link: "/data-pipeline-sdk/javascript" },
+              { text: "Java", link: "/data-pipeline-sdk/java" },
+              { text: "Python", link: "/data-pipeline-sdk/python" },
+              { text: "PHP", link: "/data-pipeline-sdk/php" },
+            ],
+          },
+          {
+            text: "Reference",
+            collapsed: false,
+            items: [
+              {
+                text: "Integration Guide",
+                link: "/data-pipeline-sdk/integration-guide",
+              },
+            ],
+          },
         ],
       },
       {
