@@ -12,12 +12,12 @@ Retrieve a paginated list of workflows for the current workspace.
 
 ### Query Parameters
 
-| Parameter | Type     | Required | Description                                                     |
-| --------- | -------- | -------- | --------------------------------------------------------------- |
-| `page`    | `number` | ❌       | Page number (default: `1`)                                      |
-| `limit`   | `number` | ❌       | Records per page (default: `10`)                                |
-| `tab`     | `string` | ❌       | Filter by status: `all`, `active`, `draft`, `paused`, `stopped` |
-| `search`  | `string` | ❌       | Search by workflow name                                         |
+| Parameter | Type   | Required | Description                                                |
+| --------- | ------ | -------- | ---------------------------------------------------------- |
+| page      | number | ❌       | Page number (default: 1)                                   |
+| limit     | number | ❌       | Records per page (default: 10)                             |
+| tab       | string | ❌       | Filter by status: all, active, draft, paused, stopped      |
+| search    | string | ❌       | Search by workflow name                                    |
 
 ### Response
 
@@ -54,17 +54,17 @@ Create a new automation workflow.
 
 ### Request Body
 
-| Field          | Type       | Required | Description                                       |
-| -------------- | ---------- | -------- | ------------------------------------------------- |
-| `name`         | `string`   | ✅       | Workflow display name                             |
-| `description`  | `string`   | ❌       | Optional description                              |
-| `triggerType`  | `string`   | ✅       | Trigger type: `EVENT`, `SCHEDULE`, `API`          |
-| `triggerEvent` | `string`   | ❌       | Event name (required for `EVENT` trigger)         |
-| `schedule`     | `string`   | ❌       | Cron expression (required for `SCHEDULE` trigger) |
-| `nodes`        | `object[]` | ❌       | Workflow node definitions (React Flow format)     |
-| `edges`        | `object[]` | ❌       | Workflow edge connections (React Flow format)     |
-| `tags`         | `string[]` | ❌       | Tag labels                                        |
-| `status`       | `string`   | ❌       | `DRAFT` (default)                                 |
+| Field         | Type     | Required | Description                                       |
+| ------------- | -------- | -------- | ------------------------------------------------- |
+| name          | string   | ✅       | Workflow display name                             |
+| description   | string   | ❌       | Optional description                             |
+| triggerType   | string   | ✅       | Trigger type: EVENT, SCHEDULE, API                |
+| triggerEvent  | string   | ❌       | Event name (required for EVENT trigger)           |
+| schedule      | string   | ❌       | Cron expression (required for SCHEDULE trigger)   |
+| nodes         | object[] | ❌       | Workflow node definitions (React Flow format)     |
+| edges         | object[] | ❌       | Workflow edge connections (React Flow format)     |
+| tags          | string[] | ❌       | Tag labels                                        |
+| status        | string   | ❌       | DRAFT (default)                                   |
 
 ::: warning
 Workflows must be activated (`ACTIVATE` action) before they can process events. Draft workflows are not executed.
@@ -125,9 +125,9 @@ Delete one or more workflows.
 
 ### Request Body
 
-| Field | Type       | Required | Description                     |
-| ----- | ---------- | -------- | ------------------------------- |
-| `ids` | `string[]` | ✅       | Array of workflow IDs to delete |
+| Field | Type     | Required | Description                     |
+| ----- | -------- | -------- | ------------------------------- |
+| ids   | string[] | ✅       | Array of workflow IDs to delete |
 
 ### Response
 
@@ -149,9 +149,9 @@ Retrieve full details of a single workflow including nodes and edges.
 
 ### Path Parameters
 
-| Parameter    | Type     | Description |
-| ------------ | -------- | ----------- |
-| `workflowId` | `string` | Workflow ID |
+| Parameter  | Type   | Description |
+| ---------- | ------ | ----------- |
+| workflowId | string | Workflow ID |
 
 ### Response
 
@@ -186,9 +186,9 @@ Update a workflow's definition, name, or tags.
 
 ### Path Parameters
 
-| Parameter    | Type     | Description |
-| ------------ | -------- | ----------- |
-| `workflowId` | `string` | Workflow ID |
+| Parameter  | Type   | Description |
+| ---------- | ------ | ----------- |
+| workflowId | string | Workflow ID |
 
 ### Request Body
 
@@ -216,9 +216,9 @@ Same fields as Create Workflow — only include fields to update.
 
 ### Path Parameters
 
-| Parameter    | Type     | Description           |
-| ------------ | -------- | --------------------- |
-| `workflowId` | `string` | Workflow ID to delete |
+| Parameter  | Type   | Description           |
+| ---------- | ------ | --------------------- |
+| workflowId | string | Workflow ID to delete  |
 
 ### Response
 
@@ -240,15 +240,15 @@ Deploy a workflow to production. This uploads the workflow definition to **AWS S
 
 ### Path Parameters
 
-| Parameter    | Type     | Description             |
-| ------------ | -------- | ----------------------- |
-| `workflowId` | `string` | Workflow ID to activate |
+| Parameter  | Type   | Description             |
+| ---------- | ------ | ----------------------- |
+| workflowId | string | Workflow ID to activate  |
 
 ### Request Body
 
-| Field    | Type     | Required | Description                                |
-| -------- | -------- | -------- | ------------------------------------------ |
-| `action` | `string` | ✅       | `ACTIVATE` to deploy, `DEACTIVATE` to stop |
+| Field  | Type   | Required | Description                              |
+| ------ | ------ | -------- | ---------------------------------------- |
+| action | string | ✅       | ACTIVATE to deploy, DEACTIVATE to stop    |
 
 ### Request
 
@@ -280,32 +280,32 @@ Activating a workflow deploys it to Google Cloud Run. This is an asynchronous op
 
 ## Workflow Node Types
 
-| Node Type       | Description                                              |
-| --------------- | -------------------------------------------------------- |
-| `trigger`       | Entry point — listens for the trigger event              |
-| `sendEmail`     | Sends an email via the configured integration            |
-| `sendSms`       | Sends an SMS message                                     |
-| `sendPush`      | Sends a web push notification                            |
-| `wait`          | Adds a time delay before the next action                 |
-| `condition`     | Branches workflow based on attribute or event conditions |
-| `updateContact` | Updates a contact's attribute or tag                     |
-| `exitWorkflow`  | Terminates the contact's journey                         |
+| Node Type     | Description                                              |
+| ------------- | -------------------------------------------------------- |
+| trigger       | Entry point — listens for the trigger event              |
+| sendEmail     | Sends an email via the configured integration            |
+| sendSms       | Sends an SMS message                                     |
+| sendPush      | Sends a web push notification                            |
+| wait          | Adds a time delay before the next action                 |
+| condition     | Branches workflow based on attribute or event conditions |
+| updateContact | Updates a contact's attribute or tag                     |
+| exitWorkflow  | Terminates the contact's journey                         |
 
 ## Workflow Trigger Types
 
-| Type       | Description                                                             |
-| ---------- | ----------------------------------------------------------------------- |
-| `EVENT`    | Triggered by a specific customer event (e.g. `user_signup`, `purchase`) |
-| `SCHEDULE` | Runs on a cron schedule (via Google Cloud Scheduler)                    |
-| `API`      | Manually triggered via an API call                                      |
+| Type     | Description                                                      |
+| -------- | ---------------------------------------------------------------- |
+| EVENT    | Triggered by a specific customer event (e.g. user_signup, purchase) |
+| SCHEDULE | Runs on a cron schedule (via Google Cloud Scheduler)             |
+| API      | Manually triggered via an API call                               |
 
 ## Workflow Statuses
 
-| Status      | Description                             |
-| ----------- | --------------------------------------- |
-| `DRAFT`     | Being configured, not deployed          |
-| `ACTIVE`    | Deployed and enrolling contacts         |
-| `PAUSED`    | Temporarily paused — no new enrollments |
-| `STOPPED`   | Fully deactivated                       |
-| `DEPLOYING` | Deployment in progress                  |
-| `FAILED`    | Deployment failed                       |
+| Status    | Description                             |
+| --------- | --------------------------------------- |
+| DRAFT     | Being configured, not deployed          |
+| ACTIVE    | Deployed and enrolling contacts         |
+| PAUSED    | Temporarily paused — no new enrollments |
+| STOPPED   | Fully deactivated                       |
+| DEPLOYING | Deployment in progress                  |
+| FAILED    | Deployment failed                       |

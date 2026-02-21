@@ -34,13 +34,13 @@ Initialize the SDK with your credentials. You can pass options or use environmen
 
 | Option      | Type   | Required | Default | Description                                                           |
 | ----------- | ------ | -------- | ------- | --------------------------------------------------------------------- |
-| authToken   | string | Yes      | —       | Authentication token from your account manager                        |
-| accountId   | string | Yes      | —       | Account identifier                                                    |
-| workspaceId | string | Yes      | —       | Workspace identifier                                                  |
-| baseURL     | string | Yes      | —       | Ingest API base URL, e.g. `https://your-api-gateway-url/apigw/ingest` |
-| timeout     | number | No       | 30000   | Request timeout in ms                                                 |
-| retries     | number | No       | 3       | Number of retries on 5xx                                              |
-| retryDelay  | number | No       | 1000    | Base delay in ms (exponential backoff)                                |
+| authToken   | string | ✅       | —       | Authentication token from your account manager                        |
+| accountId   | string | ✅       | —       | Account identifier                                                    |
+| workspaceId | string | ✅       | —       | Workspace identifier                                                  |
+| baseURL     | string | ✅       | —       | Ingest API base URL, e.g. `https://your-api-gateway-url/apigw/ingest` |
+| timeout     | number | ❌       | 30000   | Request timeout in ms                                                 |
+| retries     | number | ❌       | 3       | Number of retries on 5xx                                              |
+| retryDelay  | number | ❌       | 1000    | Base delay in ms (exponential backoff)                                |
 
 ```javascript
 require("dotenv").config();
@@ -163,21 +163,21 @@ const batchResult = await sdk.sendBatch(batchData);
 
 ## API methods
 
-| Method                          | Description                                            |
-| ------------------------------- | ------------------------------------------------------ |
-| `sendCustomerProfile(data)`     | Push customer profile                                  |
-| `sendAccountEvent(data)`        | Push account event                                     |
-| `sendDepositEvent(data)`        | Push deposit event                                     |
-| `sendWithdrawEvent(data)`       | Push withdrawal event                                  |
-| `sendGamingActivityEvent(data)` | Push gaming activity event                             |
-| `sendWalletBalanceEvent(data)`  | Push wallet balance event                              |
-| `sendReferFriendEvent(data)`    | Push refer-friend event                                |
-| `sendExtendedAttributes(data)`  | Push extended attributes                               |
-| `sendOperationsEvent(data)`     | Push operations event(s) — **JavaScript only**         |
-| `sendBatch(batchData)`          | Send a batch (see batch keys table above)              |
-| `updateConfig(newConfig)`       | Update client config at runtime                        |
-| `getConfig()`                   | Get current config (auth token masked)                 |
-| `createClient(config)`          | Factory: `OptikpiDataPipelineSDK.createClient(config)` |
+| Method                        | Description                                          |
+| ----------------------------- | ---------------------------------------------------- |
+| sendCustomerProfile(data)     | Push customer profile                                |
+| sendAccountEvent(data)        | Push account event                                   |
+| sendDepositEvent(data)        | Push deposit event                                   |
+| sendWithdrawEvent(data)       | Push withdrawal event                                |
+| sendGamingActivityEvent(data) | Push gaming activity event                           |
+| sendWalletBalanceEvent(data)  | Push wallet balance event                            |
+| sendReferFriendEvent(data)    | Push refer-friend event                              |
+| sendExtendedAttributes(data)  | Push extended attributes                             |
+| sendOperationsEvent(data)     | Push operations event(s) — **JavaScript only**       |
+| sendBatch(batchData)          | Send a batch (see batch keys table above)            |
+| updateConfig(newConfig)       | Update client config at runtime                      |
+| getConfig()                   | Get current config (auth token masked)               |
+| createClient(config)          | Factory: OptikpiDataPipelineSDK.createClient(config) |
 
 ## Validation
 

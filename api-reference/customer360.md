@@ -51,25 +51,25 @@ Retrieve aggregated customer data and segment summaries.
 
 Individual customer profiles are resolved from the **ElasticSearch** customer index. The following fields represent a standard customer profile:
 
-| Field              | Type             | Description                               |
-| ------------------ | ---------------- | ----------------------------------------- |
-| `id`               | `string`         | Unique customer ID                        |
-| `email`            | `string \| null` | Email address                             |
-| `phone`            | `string \| null` | Phone number (E.164 format)               |
-| `firstName`        | `string \| null` | First name                                |
-| `lastName`         | `string \| null` | Last name                                 |
-| `country`          | `string \| null` | ISO 3166-1 alpha-2 country code           |
-| `city`             | `string \| null` | City                                      |
-| `language`         | `string \| null` | Preferred language code                   |
-| `timezone`         | `string \| null` | Timezone                                  |
-| `tags`             | `string[]`       | Associated tags                           |
-| `attributes`       | `object`         | Custom key-value attributes               |
-| `isSubscribed`     | `boolean`        | Email subscription status                 |
-| `isSmsSubscribed`  | `boolean`        | SMS subscription status                   |
-| `isPushSubscribed` | `boolean`        | Push notification subscription status     |
-| `lifetimeValue`    | `number \| null` | Total revenue attributed to this customer |
-| `lastActiveAt`     | `string \| null` | ISO 8601 timestamp of last engagement     |
-| `createdAt`        | `string`         | ISO 8601 creation timestamp               |
+| Field            | Type           | Description                               |
+| ---------------- | -------------- | ----------------------------------------- |
+| id               | string         | Unique customer ID                        |
+| email            | string \| null | Email address                             |
+| phone            | string \| null | Phone number (E.164 format)               |
+| firstName        | string \| null | First name                                |
+| lastName         | string \| null | Last name                                 |
+| country          | string \| null | ISO 3166-1 alpha-2 country code           |
+| city             | string \| null | City                                      |
+| language         | string \| null | Preferred language code                   |
+| timezone         | string \| null | Timezone                                  |
+| tags             | string[]       | Associated tags                           |
+| attributes       | object         | Custom key-value attributes               |
+| isSubscribed     | boolean        | Email subscription status                 |
+| isSmsSubscribed  | boolean        | SMS subscription status                   |
+| isPushSubscribed | boolean        | Push notification subscription status     |
+| lifetimeValue    | number \| null | Total revenue attributed to this customer |
+| lastActiveAt     | string \| null | ISO 8601 timestamp of last engagement     |
+| createdAt        | string         | ISO 8601 creation timestamp               |
 
 ### Example Customer Profile
 
@@ -103,16 +103,16 @@ Individual customer profiles are resolved from the **ElasticSearch** customer in
 
 Events track all interactions a customer has with your brand:
 
-| Field        | Type             | Description                                                  |
-| ------------ | ---------------- | ------------------------------------------------------------ |
-| `id`         | `string`         | Unique event ID                                              |
-| `customerId` | `string`         | Customer ID                                                  |
-| `type`       | `string`         | Event type (e.g. `email_opened`, `link_clicked`, `purchase`) |
-| `channel`    | `string \| null` | Channel context: `EMAIL`, `SMS`, `PUSH`, `WEB`               |
-| `campaignId` | `string \| null` | Associated campaign ID                                       |
-| `workflowId` | `string \| null` | Associated workflow ID                                       |
-| `metadata`   | `object`         | Event-specific data (e.g. URL clicked, product ID)           |
-| `occurredAt` | `string`         | ISO 8601 timestamp                                           |
+| Field      | Type           | Description                                            |
+| ---------- | -------------- | ------------------------------------------------------ |
+| id         | string         | Unique event ID                                        |
+| customerId | string         | Customer ID                                            |
+| type       | string         | Event type (e.g. email_opened, link_clicked, purchase) |
+| channel    | string \| null | Channel context: EMAIL, SMS, PUSH, WEB                 |
+| campaignId | string \| null | Associated campaign ID                                 |
+| workflowId | string \| null | Associated workflow ID                                 |
+| metadata   | object         | Event-specific data (e.g. URL clicked, product ID)     |
+| occurredAt | string         | ISO 8601 timestamp                                     |
 
 ### Example Event
 

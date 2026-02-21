@@ -106,15 +106,15 @@ Call `customer.validate()` before sending. It returns a dict with `isValid` and 
 
 | Method                             | Description         |
 | ---------------------------------- | ------------------- |
-| `send_customer_profile(data)`      | Customer profile    |
-| `send_account_event(data)`         | Account event       |
-| `send_deposit_event(data)`         | Deposit event       |
-| `send_withdraw_event(data)`        | Withdrawal event    |
-| `send_gaming_activity_event(data)` | Gaming activity     |
-| `send_wallet_balance_event(data)`  | Wallet balance      |
-| `send_refer_friend_event(data)`    | Refer friend        |
-| `send_extended_attributes(data)`   | Extended attributes |
-| `send_batch(batch_data)`           | Batch send          |
+| send_customer_profile(data)        | Customer profile    |
+| send_account_event(data)           | Account event       |
+| send_deposit_event(data)           | Deposit event       |
+| send_withdraw_event(data)          | Withdrawal event    |
+| send_gaming_activity_event(data)   | Gaming activity     |
+| send_wallet_balance_event(data)    | Wallet balance      |
+| send_refer_friend_event(data)      | Refer friend        |
+| send_extended_attributes(data)     | Extended attributes |
+| send_batch(batch_data)             | Batch send          |
 
 ## Examples
 

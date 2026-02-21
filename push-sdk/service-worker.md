@@ -4,9 +4,9 @@
 
 ## Responsibilities
 
-| Event  | Description                                                                   |
-| ------ | ----------------------------------------------------------------------------- |
-| `push` | Receives push payloads from the browser push service and shows a notification |
+| Event | Description                                                                   |
+| ----- | ----------------------------------------------------------------------------- |
+| push  | Receives push payloads from the browser push service and shows a notification |
 
 ::: info
 The current service worker does **not** implement `install`, `activate`, or `notificationclick`. Click behavior (open URL, track click) is not implemented in the shipped file; the `notificationclick` handler is commented out.
@@ -37,15 +37,15 @@ self.addEventListener("push", function (event) {
 
 The push payload from the server should be a JSON object with the following fields (all optional except you typically want `title` and/or `body`):
 
-| Field   | Type     | Description                                       |
-| ------- | -------- | ------------------------------------------------- |
-| `title` | `string` | Notification title (default: "Push Notification") |
-| `body`  | `string` | Body text                                         |
-| `icon`  | `string` | Icon image URL                                    |
-| `badge` | `string` | Badge image URL                                   |
-| `image` | `string` | Large image URL                                   |
-| `data`  | `object` | Custom data (passed to `options.data`)            |
-| `lang`  | `string` | Language for the notification                     |
+| Field | Type   | Description                                       |
+| ----- | ------ | ------------------------------------------------- |
+| title | string | Notification title (default: "Push Notification") |
+| body  | string | Body text                                         |
+| icon  | string | Icon image URL                                    |
+| badge | string | Badge image URL                                   |
+| image | string | Large image URL                                   |
+| data  | object | Custom data (passed to options.data)              |
+| lang  | string | Language for the notification                     |
 
 ## Debugging
 

@@ -12,9 +12,9 @@ Retrieve usage statistics and plan limits for all modules in a workspace.
 
 ### Request Body
 
-| Field         | Type     | Required | Description                     |
-| ------------- | -------- | -------- | ------------------------------- |
-| `workspaceId` | `string` | ✅       | Workspace ID to query usage for |
+| Field       | Type   | Required | Description                     |
+| ----------- | ------ | -------- | ------------------------------- |
+| workspaceId | string | ✅       | Workspace ID to query usage for |
 
 ### Request
 
@@ -88,12 +88,12 @@ Retrieve usage statistics and plan limits for all modules in a workspace.
 
 ## Module Usage Object
 
-| Field         | Type     | Description                                   |
-| ------------- | -------- | --------------------------------------------- |
-| `used`        | `number` | Current usage in the billing period           |
-| `limit`       | `number` | Plan limit for this module (`-1` = unlimited) |
-| `unit`        | `string` | Unit label (emails, messages, segments, etc.) |
-| `percentUsed` | `number` | `(used / limit) * 100` rounded to 2 decimals  |
+| Field       | Type   | Description                                   |
+| ----------- | ------ | --------------------------------------------- |
+| used        | number | Current usage in the billing period           |
+| limit       | number | Plan limit for this module (-1 = unlimited)   |
+| unit        | string | Unit label (emails, messages, segments, etc.) |
+| percentUsed | number | (used / limit) \* 100 rounded to 2 decimals   |
 
 ::: warning
 When `percentUsed` reaches `80%` or higher, the UI displays a usage warning. At `100%`, the module is locked until the billing period resets or the plan is upgraded.
@@ -101,12 +101,12 @@ When `percentUsed` reaches `80%` or higher, the UI displays a usage warning. At 
 
 ## Modules
 
-| Module Key  | Description                                   |
-| ----------- | --------------------------------------------- |
-| `email`     | Monthly email sends across all campaigns      |
-| `sms`       | Monthly SMS messages sent                     |
-| `push`      | Monthly web push notifications delivered      |
-| `audiences` | Total active audience segments                |
-| `workflows` | Total active automation workflows             |
-| `campaigns` | Total campaigns created in the billing period |
-| `contacts`  | Total unique contacts in the workspace        |
+| Module Key | Description                                   |
+| ---------- | --------------------------------------------- |
+| email      | Monthly email sends across all campaigns      |
+| sms        | Monthly SMS messages sent                     |
+| push       | Monthly web push notifications delivered      |
+| audiences  | Total active audience segments                |
+| workflows  | Total active automation workflows             |
+| campaigns  | Total campaigns created in the billing period |
+| contacts   | Total unique contacts in the workspace        |

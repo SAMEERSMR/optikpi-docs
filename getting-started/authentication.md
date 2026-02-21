@@ -60,13 +60,13 @@ response = requests.post(
 
 **Request Body**
 
-| Field         | Type     | Required | Description                                          |
-| ------------- | -------- | -------- | ---------------------------------------------------- |
-| `email`       | `string` | ✅       | User's email address                                 |
-| `password`    | `string` | ✅       | User's plain-text password (compared via bcrypt)     |
-| `csrfToken`   | `string` | ✅       | NextAuth CSRF token from `/api/auth/csrf`            |
-| `workspaceId` | `string` | ❌       | Optional; workspace is determined from user record   |
-| `remember`    | `string` | ❌       | Optional; `"true"` for longer session (e.g. 30 days) |
+| Field       | Type   | Required | Description                                        |
+| ----------- | ------ | -------- | -------------------------------------------------- |
+| email       | string | ✅       | User's email address                               |
+| password    | string | ✅       | User's plain-text password (compared via bcrypt)   |
+| csrfToken   | string | ✅       | NextAuth CSRF token from /api/auth/csrf            |
+| workspaceId | string | ❌       | Optional; workspace is determined from user record |
+| remember    | string | ❌       | Optional; "true" for longer session (e.g. 30 days) |
 
 **Example Request**
 
@@ -86,20 +86,20 @@ Never expose credentials in client-side code, URLs, or logs. The password and CS
 
 Once authenticated, the JWT session contains the following fields accessible via `useSession()` or `getServerSession()`:
 
-| Field                                     | Type      | Description                                        |
-| ----------------------------------------- | --------- | -------------------------------------------------- |
-| `user.id`                                 | `string`  | User's database ID                                 |
-| `user.email`                              | `string`  | User's email (from NextAuth)                       |
-| `user.workspaceId`                        | `string`  | Active workspace ID                                |
-| `user.workspaces`                         | `array`   | Workspaces the user can access                     |
-| `user.accountId`                          | `string`  | Account (company) ID                               |
-| `user.role`                               | `string`  | User role within the workspace                     |
-| `user.language`                           | `string`  | Preferred language code                            |
-| `user.timezone`                           | `string`  | Preferred timezone                                 |
-| `user.rootUser`                           | `boolean` | Whether the user is a root user                    |
-| `user.isSupportUser`                      | `boolean` | Whether the user is a support user                 |
-| `user.enableDataPlatformCSVImport`        | `boolean` | Whether Data Platform CSV import is enabled        |
-| `user.enableAudienceAllocationInCampaign` | `boolean` | Whether audience allocation in campaign is enabled |
+| Field                                     | Type    | Description                                        |
+| ----------------------------------------- | ------- | -------------------------------------------------- |
+| user.id                                   | string  | User's database ID                                 |
+| user.email                                | string  | User's email (from NextAuth)                        |
+| user.workspaceId                           | string  | Active workspace ID                                 |
+| user.workspaces                            | array   | Workspaces the user can access                      |
+| user.accountId                             | string  | Account (company) ID                                |
+| user.role                                  | string  | User role within the workspace                     |
+| user.language                              | string  | Preferred language code                            |
+| user.timezone                              | string  | Preferred timezone                                 |
+| user.rootUser                              | boolean | Whether the user is a root user                    |
+| user.isSupportUser                         | boolean | Whether the user is a support user                 |
+| user.enableDataPlatformCSVImport            | boolean | Whether Data Platform CSV import is enabled        |
+| user.enableAudienceAllocationInCampaign    | boolean | Whether audience allocation in campaign is enabled  |
 
 **Example Session Object**
 

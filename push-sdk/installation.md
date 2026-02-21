@@ -83,11 +83,11 @@ function onLogout(userId, customerId) {
 
 ## Constructor Parameters
 
-| Parameter           | Type     | Required | Default                        | Description                     |
-| ------------------- | -------- | -------- | ------------------------------ | ------------------------------- |
-| `optiKPIPushKey`    | `string` | ✅       | —                              | VAPID/public key (base64)       |
-| `originURL`         | `string` | ❌       | `"https://push.optikpi.com"`   | Push server base URL            |
-| `serviceWorkerPath` | `string` | ❌       | `"/optikpi-service-worker.js"` | Path to the service worker file |
+| Parameter         | Type   | Required | Default                      | Description                     |
+| ----------------- | ------ | -------- | ---------------------------- | ------------------------------- |
+| optiKPIPushKey    | string | ✅       | —                            | VAPID/public key (base64)       |
+| originURL         | string | ❌       | "https://push.optikpi.com"   | Push server base URL            |
+| serviceWorkerPath | string | ❌       | "/optikpi-service-worker.js" | Path to the service worker file |
 
 ## Verifying Installation
 

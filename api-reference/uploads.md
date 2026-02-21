@@ -12,26 +12,26 @@ Upload a file to AWS S3. Returns the public URL of the uploaded file.
 
 ### Request Headers
 
-| Header         | Value                 |
-| -------------- | --------------------- |
-| `Content-Type` | `multipart/form-data` |
+| Header       | Value               |
+| ------------ | ------------------- |
+| Content-Type | multipart/form-data |
 
 ### Request Form Fields
 
-| Field         | Type     | Required | Description                             |
-| ------------- | -------- | -------- | --------------------------------------- |
-| `file`        | `File`   | ✅       | The file to upload                      |
-| `workSpaceId` | `string` | ✅       | Active workspace ID                     |
-| `moduleName`  | `string` | ✅       | Module context for S3 path organization |
+| Field       | Type   | Required | Description                             |
+| ----------- | ------ | -------- | --------------------------------------- |
+| file        | File   | ✅       | The file to upload                      |
+| workSpaceId | string | ✅       | Active workspace ID                     |
+| moduleName  | string | ✅       | Module context for S3 path organization |
 
 ### Module Names
 
-| `moduleName` | Description                   | S3 Path Prefix               |
-| ------------ | ----------------------------- | ---------------------------- |
-| `library`    | Email template images         | `workspaces/{id}/library/`   |
-| `workspace`  | Workspace logo / brand assets | `workspaces/{id}/workspace/` |
-| `user`       | User avatar photos            | `workspaces/{id}/users/`     |
-| `campaign`   | Campaign-specific assets      | `workspaces/{id}/campaigns/` |
+| moduleName | Description                   | S3 Path Prefix             |
+| ---------- | ----------------------------- | -------------------------- |
+| library    | Email template images         | workspaces/{id}/library/   |
+| workspace  | Workspace logo / brand assets | workspaces/{id}/workspace/ |
+| user       | User avatar photos            | workspaces/{id}/users/     |
+| campaign   | Campaign-specific assets      | workspaces/{id}/campaigns/ |
 
 ### Request (multipart)
 
@@ -59,13 +59,13 @@ library
 
 ```javascript
 const formData = new FormData();
-formData.append('file', fileInput.files[0]);
-formData.append('workSpaceId', 'ws_xyz789');
-formData.append('moduleName', 'library');
+formData.append("file", fileInput.files[0]);
+formData.append("workSpaceId", "ws_xyz789");
+formData.append("moduleName", "library");
 
-const response = await fetch('/en/api/uploads', {
-  method: 'POST',
-  body: formData
+const response = await fetch("/en/api/uploads", {
+  method: "POST",
+  body: formData,
 });
 
 const result = await response.json();
@@ -98,10 +98,10 @@ Remove a file from AWS S3 by its storage key.
 
 ### Request Body
 
-| Field         | Type     | Required | Description                                            |
-| ------------- | -------- | -------- | ------------------------------------------------------ |
-| `key`         | `string` | ✅       | The S3 object key to delete (from the upload response) |
-| `workSpaceId` | `string` | ✅       | Active workspace ID                                    |
+| Field       | Type   | Required | Description                                            |
+| ----------- | ------ | -------- | ------------------------------------------------------ |
+| key         | string | ✅       | The S3 object key to delete (from the upload response) |
+| workSpaceId | string | ✅       | Active workspace ID                                    |
 
 ### Request
 

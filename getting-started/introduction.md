@@ -45,13 +45,13 @@ The application supports multiple locales. Locale is part of the URL path and is
 
 All API calls within the platform include session-derived headers injected by the Next.js middleware:
 
-| Header        | Description                                   |
-| ------------- | --------------------------------------------- |
-| `accountId`   | The account (company/organization) ID         |
-| `workSpaceId` | The active workspace ID                       |
-| `userId`      | The authenticated user's ID                   |
-| `timezone`    | User's preferred timezone (e.g. `Asia/Dubai`) |
-| `language`    | User's preferred language (e.g. `en`)         |
+| Header      | Description                                 |
+| ----------- | ------------------------------------------- |
+| accountId   | The account (company/organization) ID       |
+| workSpaceId | The active workspace ID                     |
+| userId      | The authenticated user's ID                 |
+| timezone    | User's preferred timezone (e.g. Asia/Dubai) |
+| language    | User's preferred language (e.g. en)         |
 
 These headers are not sent by the client — they are automatically set by `middleware.ts` on every server-side API request after reading the session from the JWT cookie.
 

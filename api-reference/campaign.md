@@ -12,18 +12,18 @@ Retrieve a paginated list of campaigns for the current workspace.
 
 ### Query Parameters
 
-| Parameter  | Type     | Required | Description                                         |
-| ---------- | -------- | -------- | --------------------------------------------------- |
-| `page`     | `number` | ❌       | Page number (default: `1`)                          |
-| `pageSize` | `number` | ❌       | Records per page (default: `10`)                    |
-| `status`   | `string` | ❌       | Filter by status (e.g. draft, scheduled, completed) |
+| Parameter | Type   | Required | Description                                         |
+| --------- | ------ | -------- | --------------------------------------------------- |
+| page      | number | ❌       | Page number (default: 1)                            |
+| pageSize  | number | ❌       | Records per page (default: 10)                      |
+| status    | string | ❌       | Filter by status (e.g. draft, scheduled, completed) |
 
 ### Request Headers
 
-| Header        | Description                             |
-| ------------- | --------------------------------------- |
-| `workSpaceId` | Active workspace ID (set by middleware) |
-| `userId`      | User ID (set by middleware)             |
+| Header      | Description                             |
+| ----------- | --------------------------------------- |
+| workSpaceId | Active workspace ID (set by middleware) |
+| userId      | User ID (set by middleware)             |
 
 ### Response (200)
 
@@ -39,17 +39,17 @@ Create a new campaign. The API uses a **type-based** request body: include `type
 
 ### Create (type: CAMPAIGN_CREATED)
 
-| Field           | Type       | Required | Description                                                              |
-| --------------- | ---------- | -------- | ------------------------------------------------------------------------ |
-| `type`          | `string`   | ✅       | Must be `CAMPAIGN_CREATED`                                               |
-| `name`          | `string`   | ✅       | Campaign display name                                                    |
-| `color`         | `string`   | ✅       | Campaign color                                                           |
-| `tags`          | `string[]` | ✅       | Tag labels (array)                                                       |
-| `goal`          | `object`   | ❌       | Campaign goal config                                                     |
-| `audience`      | `object`   | ❌       | Audience config                                                          |
-| `communication` | `object`   | ❌       | Templates and channel config                                             |
-| `trigger`       | `object`   | ❌       | Trigger config                                                           |
-| (other)         | —          | ❌       | Additional fields per app (e.g. campaignGoal, channelTypes, triggerType) |
+| Field         | Type     | Required | Description                                                              |
+| ------------- | -------- | -------- | ------------------------------------------------------------------------ |
+| type          | string   | ✅       | Must be CAMPAIGN_CREATED                                                 |
+| name          | string   | ✅       | Campaign display name                                                    |
+| color         | string   | ✅       | Campaign color                                                           |
+| tags          | string[] | ✅       | Tag labels (array)                                                       |
+| goal          | object   | ❌       | Campaign goal config                                                     |
+| audience      | object   | ❌       | Audience config                                                          |
+| communication | object   | ❌       | Templates and channel config                                             |
+| trigger       | object   | ❌       | Trigger config                                                           |
+| (other)       | —        | ❌       | Additional fields per app (e.g. campaignGoal, channelTypes, triggerType) |
 
 ### Response (200)
 
@@ -81,10 +81,10 @@ Delete one or more campaigns by ID.
 
 ### Request Body
 
-| Field         | Type       | Required | Description                            |
-| ------------- | ---------- | -------- | -------------------------------------- |
-| `campaignIds` | `string[]` | ✅       | Array of campaign IDs to delete        |
-| `tags`        | `string[]` | ❌       | Optional; for tag cleanup after delete |
+| Field       | Type     | Required | Description                            |
+| ----------- | -------- | -------- | -------------------------------------- |
+| campaignIds | string[] | ✅       | Array of campaign IDs to delete        |
+| tags        | string[] | ❌       | Optional; for tag cleanup after delete |
 
 ### Request
 
@@ -119,9 +119,9 @@ Retrieve full details of a single campaign.
 
 ### Path Parameters
 
-| Parameter    | Type     | Description |
-| ------------ | -------- | ----------- |
-| `campaignId` | `string` | Campaign ID |
+| Parameter  | Type   | Description |
+| ---------- | ------ | ----------- |
+| campaignId | string | Campaign ID |
 
 ### Response
 
@@ -170,9 +170,9 @@ Update a campaign's content or settings.
 
 ### Path Parameters
 
-| Parameter    | Type     | Description |
-| ------------ | -------- | ----------- |
-| `campaignId` | `string` | Campaign ID |
+| Parameter  | Type   | Description |
+| ---------- | ------ | ----------- |
+| campaignId | string | Campaign ID |
 
 ### Request Body
 
@@ -203,20 +203,20 @@ Update the delivery status of a campaign (schedule, pause, cancel, etc.).
 
 ### Request Body
 
-| Field         | Type     | Required | Description                                 |
-| ------------- | -------- | -------- | ------------------------------------------- |
-| `type`        | `string` | ✅       | Status action type                          |
-| `scheduledAt` | `string` | ❌       | New schedule datetime (for `SCHEDULE` type) |
+| Field       | Type   | Required | Description                               |
+| ----------- | ------ | -------- | ----------------------------------------- |
+| type        | string | ✅       | Status action type                        |
+| scheduledAt | string | ❌       | New schedule datetime (for SCHEDULE type) |
 
 ### Status Action Types
 
-| `type`     | Description                                               |
-| ---------- | --------------------------------------------------------- |
-| `SCHEDULE` | Schedule the campaign for delivery                        |
-| `PAUSE`    | Pause a running campaign                                  |
-| `RESUME`   | Resume a paused campaign                                  |
-| `CANCEL`   | Cancel a scheduled or running campaign                    |
-| `SEND_NOW` | Immediately trigger campaign delivery (bypasses schedule) |
+| type     | Description                                               |
+| -------- | --------------------------------------------------------- |
+| SCHEDULE | Schedule the campaign for delivery                        |
+| PAUSE    | Pause a running campaign                                  |
+| RESUME   | Resume a paused campaign                                  |
+| CANCEL   | Cancel a scheduled or running campaign                    |
+| SEND_NOW | Immediately trigger campaign delivery (bypasses schedule) |
 
 ### Request
 
@@ -245,29 +245,29 @@ Update the delivery status of a campaign (schedule, pause, cancel, etc.).
 
 ## Campaign Object
 
-| Field         | Type             | Description                                                                          |
-| ------------- | ---------------- | ------------------------------------------------------------------------------------ |
-| `id`          | `string`         | Unique campaign ID                                                                   |
-| `name`        | `string`         | Display name                                                                         |
-| `channel`     | `string`         | `EMAIL` \| `SMS` \| `PUSH`                                                           |
-| `status`      | `string`         | `DRAFT` \| `SCHEDULED` \| `RUNNING` \| `SENT` \| `PAUSED` \| `CANCELLED` \| `FAILED` |
-| `audienceId`  | `string`         | Target audience ID                                                                   |
-| `libraryId`   | `string`         | Content template ID                                                                  |
-| `subject`     | `string \| null` | Email subject (EMAIL only)                                                           |
-| `previewText` | `string \| null` | Email preheader text                                                                 |
-| `senderId`    | `string \| null` | Integration/sender ID                                                                |
-| `scheduledAt` | `string \| null` | Scheduled send datetime                                                              |
-| `tags`        | `string[]`       | Tag labels                                                                           |
-| `utmParams`   | `object \| null` | UTM tracking parameters                                                              |
-| `stats`       | `object`         | Delivery metrics (sent, opened, clicked, etc.)                                       |
-| `workspaceId` | `string`         | Owning workspace ID                                                                  |
-| `createdAt`   | `string`         | ISO 8601 creation timestamp                                                          |
-| `updatedAt`   | `string`         | ISO 8601 last update timestamp                                                       |
+| Field       | Type           | Description                                                            |
+| ----------- | -------------- | ---------------------------------------------------------------------- |
+| id          | string         | Unique campaign ID                                                     |
+| name        | string         | Display name                                                           |
+| channel     | string         | EMAIL \| SMS \| PUSH                                                   |
+| status      | string         | DRAFT \| SCHEDULED \| RUNNING \| SENT \| PAUSED \| CANCELLED \| FAILED |
+| audienceId  | string         | Target audience ID                                                     |
+| libraryId   | string         | Content template ID                                                    |
+| subject     | string \| null | Email subject (EMAIL only)                                             |
+| previewText | string \| null | Email preheader text                                                   |
+| senderId    | string \| null | Integration/sender ID                                                  |
+| scheduledAt | string \| null | Scheduled send datetime                                                |
+| tags        | string[]       | Tag labels                                                             |
+| utmParams   | object \| null | UTM tracking parameters                                                |
+| stats       | object         | Delivery metrics (sent, opened, clicked, etc.)                         |
+| workspaceId | string         | Owning workspace ID                                                    |
+| createdAt   | string         | ISO 8601 creation timestamp                                            |
+| updatedAt   | string         | ISO 8601 last update timestamp                                         |
 
 ## Campaign Channels
 
 | Channel | Delivery Via               | Template Type             |
 | ------- | -------------------------- | ------------------------- |
-| `EMAIL` | SendGrid / Elastic Email   | HTML email template       |
-| `SMS`   | Integrated SMS provider    | Plain text / rich text    |
-| `PUSH`  | Web Push API (OptiKPI SDK) | Push notification payload |
+| EMAIL   | SendGrid / Elastic Email   | HTML email template       |
+| SMS     | Integrated SMS provider    | Plain text / rich text    |
+| PUSH    | Web Push API (OptiKPI SDK) | Push notification payload |

@@ -12,12 +12,12 @@ Retrieve a paginated list of saved reports for the current workspace.
 
 ### Query Parameters
 
-| Parameter | Type     | Required | Description                                               |
-| --------- | -------- | -------- | --------------------------------------------------------- |
-| `page`    | `number` | ❌       | Page number (default: `1`)                                |
-| `limit`   | `number` | ❌       | Records per page (default: `10`)                          |
-| `search`  | `string` | ❌       | Search by report name                                     |
-| `type`    | `string` | ❌       | Filter by report type: `CAMPAIGN`, `WORKFLOW`, `AUDIENCE` |
+| Parameter | Type   | Required | Description                                         |
+| --------- | ------ | -------- | --------------------------------------------------- |
+| page      | number | ❌       | Page number (default: 1)                            |
+| limit     | number | ❌       | Records per page (default: 10)                      |
+| search    | string | ❌       | Search by report name                               |
+| type      | string | ❌       | Filter by report type: CAMPAIGN, WORKFLOW, AUDIENCE |
 
 ### Response
 
@@ -60,17 +60,17 @@ Create and save a new analytics report.
 
 ### Request Body
 
-| Field             | Type       | Required | Description                            |
-| ----------------- | ---------- | -------- | -------------------------------------- |
-| `name`            | `string`   | ✅       | Report display name                    |
-| `type`            | `string`   | ✅       | `CAMPAIGN`, `WORKFLOW`, or `AUDIENCE`  |
-| `channel`         | `string`   | ❌       | Channel filter: `EMAIL`, `SMS`, `PUSH` |
-| `campaignIds`     | `string[]` | ❌       | Specific campaign IDs to include       |
-| `workflowIds`     | `string[]` | ❌       | Specific workflow IDs to include       |
-| `dateRange`       | `object`   | ✅       | Date range for the report              |
-| `dateRange.start` | `string`   | ✅       | Start date `YYYY-MM-DD`                |
-| `dateRange.end`   | `string`   | ✅       | End date `YYYY-MM-DD`                  |
-| `groupBy`         | `string`   | ❌       | Grouping: `day`, `week`, `month`       |
+| Field           | Type     | Required | Description                      |
+| --------------- | -------- | -------- | -------------------------------- |
+| name            | string   | ✅       | Report display name              |
+| type            | string   | ✅       | CAMPAIGN, WORKFLOW, or AUDIENCE  |
+| channel         | string   | ❌       | Channel filter: EMAIL, SMS, PUSH |
+| campaignIds     | string[] | ❌       | Specific campaign IDs to include |
+| workflowIds     | string[] | ❌       | Specific workflow IDs to include |
+| dateRange       | object   | ✅       | Date range for the report        |
+| dateRange.start | string   | ✅       | Start date YYYY-MM-DD            |
+| dateRange.end   | string   | ✅       | End date YYYY-MM-DD              |
+| groupBy         | string   | ❌       | Grouping: day, week, month       |
 
 ### Request
 
@@ -140,9 +140,9 @@ Delete one or more saved reports.
 
 ### Request Body
 
-| Field | Type       | Required | Description                   |
-| ----- | ---------- | -------- | ----------------------------- |
-| `ids` | `string[]` | ✅       | Array of report IDs to delete |
+| Field | Type     | Required | Description                   |
+| ----- | -------- | -------- | ----------------------------- |
+| ids   | string[] | ✅       | Array of report IDs to delete |
 
 ### Response
 
@@ -158,15 +158,15 @@ Delete one or more saved reports.
 
 ## Report Metrics Reference
 
-| Metric            | Type     | Description                                     |
-| ----------------- | -------- | ----------------------------------------------- |
-| `totalSent`       | `number` | Total messages dispatched                       |
-| `delivered`       | `number` | Successfully delivered to recipient             |
-| `opened`          | `number` | Unique opens (email only)                       |
-| `clicked`         | `number` | Unique clicks                                   |
-| `bounced`         | `number` | Hard and soft bounces                           |
-| `unsubscribed`    | `number` | Unsubscribe events                              |
-| `openRate`        | `number` | `(opened / delivered) * 100` — percentage       |
-| `clickRate`       | `number` | `(clicked / delivered) * 100` — percentage      |
-| `bounceRate`      | `number` | `(bounced / sent) * 100` — percentage           |
-| `unsubscribeRate` | `number` | `(unsubscribed / delivered) * 100` — percentage |
+| Metric          | Type   | Description                                    |
+| --------------- | ------ | ---------------------------------------------- |
+| totalSent       | number | Total messages dispatched                      |
+| delivered       | number | Successfully delivered to recipient            |
+| opened          | number | Unique opens (email only)                      |
+| clicked         | number | Unique clicks                                  |
+| bounced         | number | Hard and soft bounces                          |
+| unsubscribed    | number | Unsubscribe events                             |
+| openRate        | number | (opened / delivered) \* 100 — percentage       |
+| clickRate       | number | (clicked / delivered) \* 100 — percentage      |
+| bounceRate      | number | (bounced / sent) \* 100 — percentage           |
+| unsubscribeRate | number | (unsubscribed / delivered) \* 100 — percentage |

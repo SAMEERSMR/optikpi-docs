@@ -40,10 +40,10 @@ Returns workspace records for the given workspace IDs.
 
 **Request Body**
 
-| Field        | Type       | Required | Description                   |
-| ------------ | ---------- | -------- | ----------------------------- |
-| `type`       | `string`   | ✅       | Must be `GET-SELECTED-BRANDS` |
-| `workspaces` | `string[]` | ✅       | Array of workspace IDs        |
+| Field      | Type     | Required | Description                 |
+| ---------- | -------- | -------- | --------------------------- |
+| type       | string   | ✅       | Must be GET-SELECTED-BRANDS |
+| workspaces | string[] | ✅       | Array of workspace IDs      |
 
 **Response (200)**
 
@@ -97,12 +97,12 @@ Updates workspace settings. Body can include fields such as `timezone`, `registe
 
 ## Workspace Object (GET response)
 
-| Field                                | Type      | Description                                        |
-| ------------------------------------ | --------- | -------------------------------------------------- |
-| `id`                                 | `string`  | Workspace ID                                       |
-| `name`                               | `string`  | Workspace name                                     |
-| `domain`                             | `string`  | Domain                                             |
-| `timezone`                           | `string`  | Workspace timezone                                 |
-| `registerationNumber`                | `string`  | Registration number                                |
-| `logo`                               | `string`  | Logo URL                                           |
-| `enableAudienceAllocationInCampaign` | `boolean` | Whether audience allocation in campaign is enabled |
+| Field                                | Type    | Description                                        |
+| ------------------------------------ | ------- | -------------------------------------------------- |
+| id                                   | string  | Workspace ID                                       |
+| name                                 | string  | Workspace name                                     |
+| domain                               | string  | Domain                                             |
+| timezone                             | string  | Workspace timezone                                 |
+| registerationNumber                  | string  | Registration number                                |
+| logo                                 | string  | Logo URL                                           |
+| enableAudienceAllocationInCampaign | boolean | Whether audience allocation in campaign is enabled |

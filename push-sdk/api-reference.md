@@ -8,11 +8,11 @@ Complete reference for the **`PushSDK`** class (optikpi-push-sdk.js).
 const sdk = new PushSDK(optiKPIPushKey, originURL, serviceWorkerPath);
 ```
 
-| Parameter           | Type     | Required | Default                        | Description                     |
-| ------------------- | -------- | -------- | ------------------------------ | ------------------------------- |
-| `optiKPIPushKey`    | `string` | ✅       | —                              | VAPID/public key (base64)       |
-| `originURL`         | `string` | ❌       | `"https://push.optikpi.com"`   | Push server base URL            |
-| `serviceWorkerPath` | `string` | ❌       | `"/optikpi-service-worker.js"` | Path to the service worker file |
+| Parameter         | Type   | Required | Default                      | Description                     |
+| ----------------- | ------ | -------- | ---------------------------- | ------------------------------- |
+| optiKPIPushKey    | string | ✅       | —                            | VAPID/public key (base64)       |
+| originURL         | string | ❌       | "https://push.optikpi.com"   | Push server base URL            |
+| serviceWorkerPath | string | ❌       | "/optikpi-service-worker.js" | Path to the service worker file |
 
 ## Methods
 
@@ -60,9 +60,9 @@ await sdk.sendSubscriptionToServer(subscription);
 
 **Parameters**
 
-| Parameter      | Type               | Description            |
-| -------------- | ------------------ | ---------------------- |
-| `subscription` | `PushSubscription` | From `subscribeUser()` |
+| Parameter   | Type             | Description            |
+| ----------- | ---------------- | ---------------------- |
+| subscription | PushSubscription | From subscribeUser()   |
 
 **Request:** `POST {originURL}/storeSubscription` with body = subscription object (JSON).
 
@@ -92,10 +92,10 @@ await sdk.registerPushToken(userId, customerId);
 
 **Parameters**
 
-| Parameter    | Type     | Description                                           |
-| ------------ | -------- | ----------------------------------------------------- |
-| `userId`     | `string` | User ID                                               |
-| `customerId` | `string` | Workspace/customer ID (sent as `workspaceId` in body) |
+| Parameter  | Type   | Description                                        |
+| ---------- | ------ | -------------------------------------------------- |
+| userId     | string | User ID                                            |
+| customerId | string | Workspace/customer ID (sent as workspaceId in body) |
 
 **Request:** `POST {originURL}/associatePlayer` with body:
 

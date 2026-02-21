@@ -37,11 +37,11 @@ The **OptiKPI Push SDK** (`optikpi-push-sdk.js`) is a vanilla JavaScript library
 
 The SDK uses a **`PushSDK`** class with three arguments:
 
-| Argument            | Type     | Required | Default                        | Description                        |
-| ------------------- | -------- | -------- | ------------------------------ | ---------------------------------- |
-| `optiKPIPushKey`    | `string` | ✅       | —                              | VAPID/public key (base64) for push |
-| `originURL`         | `string` | ❌       | `"https://push.optikpi.com"`   | Push server base URL               |
-| `serviceWorkerPath` | `string` | ❌       | `"/optikpi-service-worker.js"` | Path to the service worker file    |
+| Argument            | Type   | Required | Default                        | Description                        |
+| ------------------- | ------ | -------- | ------------------------------ | ---------------------------------- |
+| optiKPIPushKey      | string | ✅       | —                              | VAPID/public key (base64) for push |
+| originURL           | string | ❌       | "https://push.optikpi.com"     | Push server base URL               |
+| serviceWorkerPath   | string | ❌       | "/optikpi-service-worker.js"   | Path to the service worker file    |
 
 ## Key Features
 

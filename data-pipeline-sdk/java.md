@@ -86,20 +86,20 @@ Call `customer.validate()` (or the model’s `validate()`) before sending. It re
 
 ## API methods
 
-| Method                                                                 | Description                       |
-| ---------------------------------------------------------------------- | --------------------------------- |
-| `sendCustomerProfile(data)`                                            | Push customer profile             |
-| `sendAccountEvent(data)`                                               | Push account event(s)             |
-| `sendDepositEvent(data)`                                               | Push deposit event(s)             |
-| `sendWithdrawEvent(data)`                                              | Push withdrawal event(s)          |
-| `sendGamingActivityEvent(data)`                                        | Push gaming activity event(s)     |
-| `sendWalletBalanceEvent(data)`                                         | Push wallet balance event(s)      |
-| `sendReferFriendEvent(data)`                                           | Push refer-friend event(s)        |
-| `sendExtendedAttributes(data)`                                         | Push extended attributes          |
-| `sendBatch(batchData)`                                                 | Send a batch                      |
-| `updateConfig(config)`                                                 | Update client config              |
-| `getConfig()`                                                          | Get current config (token masked) |
-| `createClient(config)` / `createClient(token, accountId, workspaceId)` | Factory                           |
+| Method                                                             | Description                       |
+| ------------------------------------------------------------------ | --------------------------------- |
+| sendCustomerProfile(data)                                          | Push customer profile             |
+| sendAccountEvent(data)                                             | Push account event(s)             |
+| sendDepositEvent(data)                                             | Push deposit event(s)             |
+| sendWithdrawEvent(data)                                            | Push withdrawal event(s)          |
+| sendGamingActivityEvent(data)                                      | Push gaming activity event(s)     |
+| sendWalletBalanceEvent(data)                                       | Push wallet balance event(s)      |
+| sendReferFriendEvent(data)                                         | Push refer-friend event(s)        |
+| sendExtendedAttributes(data)                                       | Push extended attributes          |
+| sendBatch(batchData)                                               | Send a batch                      |
+| updateConfig(config)                                               | Update client config              |
+| getConfig()                                                        | Get current config (token masked) |
+| createClient(config) / createClient(token, accountId, workspaceId) | Factory                           |
 
 ## Examples
 

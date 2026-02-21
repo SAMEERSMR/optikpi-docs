@@ -12,18 +12,18 @@ Retrieve tags for the current workspace. The Tags API uses a **flat** response (
 
 ### Query Parameters
 
-| Parameter    | Type     | Required | Description                                                     |
-| ------------ | -------- | -------- | --------------------------------------------------------------- |
-| `tagName`    | `string` | ❌       | Filter by tag name (partial match, case-insensitive)            |
-| `moduleName` | `string` | ❌       | Filter by module: `campaign`, `audience`, `library`, `workflow` |
-| `page`       | `number` | ❌       | Page number (default: `1`)                                      |
-| `pageSize`   | `number` | ❌       | Records per page (default: `8`)                                 |
+| Parameter  | Type   | Required | Description                                             |
+| ---------- | ------ | -------- | ------------------------------------------------------- |
+| tagName    | string | ❌       | Filter by tag name (partial match, case-insensitive)    |
+| moduleName | string | ❌       | Filter by module: campaign, audience, library, workflow |
+| page       | number | ❌       | Page number (default: 1)                                |
+| pageSize   | number | ❌       | Records per page (default: 8)                           |
 
 ### Request Headers
 
-| Header        | Description                             |
-| ------------- | --------------------------------------- |
-| `workSpaceId` | Active workspace ID (set by middleware) |
+| Header      | Description                             |
+| ----------- | --------------------------------------- |
+| workSpaceId | Active workspace ID (set by middleware) |
 
 ### Response (200)
 
@@ -51,10 +51,10 @@ Soft-delete a tag by name and module. Uses **query parameters**, not a request b
 
 ### Query Parameters
 
-| Parameter    | Type     | Required | Description                                                    |
-| ------------ | -------- | -------- | -------------------------------------------------------------- |
-| `tagName`    | `string` | ✅       | Tag name to delete                                             |
-| `moduleName` | `string` | ✅       | Module scope: `campaign`, `audience`, `library`, or `workflow` |
+| Parameter  | Type   | Required | Description                                            |
+| ---------- | ------ | -------- | ------------------------------------------------------ |
+| tagName    | string | ✅       | Tag name to delete                                     |
+| moduleName | string | ✅       | Module scope: campaign, audience, library, or workflow |
 
 ### Example
 
@@ -77,10 +77,10 @@ DELETE /{locale}/api/tags?tagName=vip&moduleName=campaign
 
 ## Tag Object (List)
 
-| Field  | Type     | Description   |
-| ------ | -------- | ------------- |
-| `id`   | `string` | Unique tag ID |
-| `name` | `string` | Tag label     |
+| Field | Type   | Description   |
+| ----- | ------ | ------------- |
+| id    | string | Unique tag ID |
+| name  | string | Tag label     |
 
 ## Tag Naming Rules
 

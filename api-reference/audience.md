@@ -12,26 +12,26 @@ Retrieve a paginated list of audiences for the current workspace. This endpoint 
 
 ### Query Parameters
 
-| Parameter           | Type     | Required | Description                                                   |
-| ------------------- | -------- | -------- | ------------------------------------------------------------- |
-| `page`              | `number` | ❌       | Page number (default: `1`)                                    |
-| `pageSize`          | `number` | ❌       | Records per page (default: `100`)                             |
-| `search`            | `string` | ❌       | Filter by audience name or tags                               |
-| `status`            | `string` | ❌       | JSON array of statuses, e.g. `["active","draft"]`             |
-| `tab`               | `string` | ❌       | Tab filter: `all`, `active`, `draft`, or `rfm`                |
-| `type`              | `string` | ❌       | JSON array of audience types                                  |
-| `tags`              | `string` | ❌       | JSON array of tag strings                                     |
-| `sort`              | `string` | ❌       | JSON sort object (default: `{ "createdAt": "desc" }`)         |
-| `excludeAudience`   | `string` | ❌       | When set, excludes the workspace's globally excluded audience |
-| `selectFields`      | `string` | ❌       | Comma-separated list of fields to return                      |
-| `isResourceCreated` | `string` | ❌       | JSON boolean to filter by resource-created flag               |
+| Parameter           | Type   | Required | Description                                                   |
+| ------------------- | ------ | -------- | ------------------------------------------------------------- |
+| page                | number | ❌       | Page number (default: 1)                                      |
+| pageSize            | number | ❌       | Records per page (default: 100)                               |
+| search              | string | ❌       | Filter by audience name or tags                               |
+| status              | string | ❌       | JSON array of statuses, e.g. ["active","draft"]               |
+| tab                 | string | ❌       | Tab filter: all, active, draft, or rfm                        |
+| type                | string | ❌       | JSON array of audience types                                  |
+| tags                | string | ❌       | JSON array of tag strings                                     |
+| sort                | string | ❌       | JSON sort object (default: { "createdAt": "desc" })           |
+| excludeAudience     | string | ❌       | When set, excludes the workspace's globally excluded audience |
+| selectFields        | string | ❌       | Comma-separated list of fields to return                      |
+| isResourceCreated   | string | ❌       | JSON boolean to filter by resource-created flag               |
 
 ### Request Headers
 
-| Header        | Description                             |
-| ------------- | --------------------------------------- |
-| `workSpaceId` | Active workspace ID (set by middleware) |
-| `userId`      | User ID (set by middleware)             |
+| Header      | Description                             |
+| ----------- | --------------------------------------- |
+| workSpaceId | Active workspace ID (set by middleware) |
+| userId      | User ID (set by middleware)             |
 
 ### Response (200)
 
@@ -69,14 +69,14 @@ Create a new audience segment. The API uses a **type-based** request body: inclu
 
 ### Create (type: AUDIENCE_CREATED)
 
-| Field          | Type       | Required | Description                      |
-| -------------- | ---------- | -------- | -------------------------------- |
-| `type`         | `string`   | ✅       | Must be `AUDIENCE_CREATED`       |
-| `name`         | `string`   | ✅       | Audience display name            |
-| `tags`         | `string[]` | ✅       | Tag labels (array, can be empty) |
-| `groups`       | `array`    | ❌       | Audience filter groups           |
-| `groupType`    | `string`   | ❌       | Group type                       |
-| `audienceType` | `object`   | ❌       | e.g. `{ "type": "static" }`      |
+| Field         | Type     | Required | Description                      |
+| ------------- | -------- | -------- | -------------------------------- |
+| type          | string   | ✅       | Must be AUDIENCE_CREATED         |
+| name          | string   | ✅       | Audience display name            |
+| tags          | string[] | ✅       | Tag labels (array, can be empty) |
+| groups        | array    | ❌       | Audience filter groups           |
+| groupType     | string   | ❌       | Group type                       |
+| audienceType  | object   | ❌       | e.g. { "type": "static" }        |
 
 ### Request
 
@@ -140,20 +140,20 @@ Content-Type: application/json
 
 ## Audience Object (List / Create response)
 
-| Field                   | Type             | Description                          |
-| ----------------------- | ---------------- | ------------------------------------ |
-| `id`                    | `string`         | Unique audience ID                   |
-| `name`                  | `string`         | Display name                         |
-| `tags`                  | `string[]`       | Tag labels                           |
-| `status`                | `string`         | e.g. `active`, `draft`               |
-| `groups`                | `array`          | Filter groups                        |
-| `workspaceId`           | `string`         | Owning workspace ID                  |
-| `audienceType`          | `object`         | e.g. `{ "type": "static" }`          |
-| `totalCustomers`        | `number`         | Total contacts in segment            |
-| `unsubscribedCustomers` | `number`         | Unsubscribed count                   |
-| `activeCustomers`       | `number`         | Active contact count                 |
-| `scheduleId`            | `string \| null` | Schedule ID if scheduled             |
-| `groupType`             | `string \| null` | Group type                           |
-| `isResourceCreated`     | `boolean`        | Whether created as resource          |
-| `updatedAt`             | `string`         | ISO 8601 last update timestamp       |
-| `createdAt`             | `string`         | ISO 8601 creation timestamp (create) |
+| Field                   | Type            | Description                          |
+| ----------------------- | --------------- | ------------------------------------ |
+| id                      | string          | Unique audience ID                   |
+| name                    | string          | Display name                         |
+| tags                    | string[]        | Tag labels                           |
+| status                  | string          | e.g. active, draft                   |
+| groups                  | array           | Filter groups                        |
+| workspaceId             | string          | Owning workspace ID                  |
+| audienceType            | object          | e.g. { "type": "static" }            |
+| totalCustomers          | number          | Total contacts in segment            |
+| unsubscribedCustomers   | number          | Unsubscribed count                   |
+| activeCustomers         | number          | Active contact count                 |
+| scheduleId              | string \| null  | Schedule ID if scheduled             |
+| groupType               | string \| null  | Group type                           |
+| isResourceCreated       | boolean         | Whether created as resource          |
+| updatedAt               | string          | ISO 8601 last update timestamp       |
+| createdAt               | string          | ISO 8601 creation timestamp (create) |

@@ -12,13 +12,13 @@ Retrieve a paginated list of templates.
 
 ### Query Parameters
 
-| Parameter | Type     | Required | Description                               |
-| --------- | -------- | -------- | ----------------------------------------- |
-| `page`    | `number` | ❌       | Page number (default: `1`)                |
-| `limit`   | `number` | ❌       | Records per page (default: `10`)          |
-| `type`    | `string` | ❌       | Filter by type: `EMAIL`, `SMS`, `PUSH`    |
-| `search`  | `string` | ❌       | Search by template name                   |
-| `tab`     | `string` | ❌       | Tab filter: `all`, `email`, `sms`, `push` |
+| Parameter | Type   | Required | Description                       |
+| --------- | ------ | -------- | --------------------------------- |
+| page      | number | ❌       | Page number (default: 1)          |
+| limit     | number | ❌       | Records per page (default: 10)    |
+| type      | string | ❌       | Filter by type: EMAIL, SMS, PUSH  |
+| search    | string | ❌       | Search by template name           |
+| tab       | string | ❌       | Tab filter: all, email, sms, push |
 
 ### Response
 
@@ -51,15 +51,15 @@ Create a new template.
 
 ### Request Body
 
-| Field         | Type       | Required | Description                                     |
-| ------------- | ---------- | -------- | ----------------------------------------------- |
-| `name`        | `string`   | ✅       | Template display name                           |
-| `type`        | `string`   | ✅       | Template type: `EMAIL`, `SMS`, `PUSH`           |
-| `htmlContent` | `string`   | ❌       | Full HTML string (required for `EMAIL`)         |
-| `jsonContent` | `object`   | ❌       | JSON design data (for drag-and-drop editors)    |
-| `smsContent`  | `string`   | ❌       | Plain text SMS body (required for `SMS`)        |
-| `pushPayload` | `object`   | ❌       | Push notification payload (required for `PUSH`) |
-| `tags`        | `string[]` | ❌       | Tag labels                                      |
+| Field       | Type     | Required | Description                                   |
+| ----------- | -------- | -------- | --------------------------------------------- |
+| name        | string   | ✅       | Template display name                         |
+| type        | string   | ✅       | Template type: EMAIL, SMS, PUSH               |
+| htmlContent | string   | ❌       | Full HTML string (required for EMAIL)         |
+| jsonContent | object   | ❌       | JSON design data (for drag-and-drop editors)  |
+| smsContent  | string   | ❌       | Plain text SMS body (required for SMS)        |
+| pushPayload | object   | ❌       | Push notification payload (required for PUSH) |
+| tags        | string[] | ❌       | Tag labels                                    |
 
 ### Email Template Request
 
@@ -124,9 +124,9 @@ Delete one or more templates.
 
 ### Request Body
 
-| Field | Type       | Required | Description                         |
-| ----- | ---------- | -------- | ----------------------------------- |
-| `ids` | `string[]` | ✅       | Array of library item IDs to delete |
+| Field | Type     | Required | Description                         |
+| ----- | -------- | -------- | ----------------------------------- |
+| ids   | string[] | ✅       | Array of library item IDs to delete |
 
 ### Response
 
@@ -148,9 +148,9 @@ Retrieve full template details including content.
 
 ### Path Parameters
 
-| Parameter   | Type     | Description     |
-| ----------- | -------- | --------------- |
-| `libraryId` | `string` | Library item ID |
+| Parameter | Type   | Description     |
+| --------- | ------ | --------------- |
+| libraryId | string | Library item ID |
 
 ### Response
 
@@ -182,11 +182,11 @@ Generate a thumbnail preview image from HTML content.
 
 ### Request Body
 
-| Field   | Type     | Required | Description                           |
-| ------- | -------- | -------- | ------------------------------------- |
-| `type`  | `string` | ✅       | Must be `"HTML_TO_IMAGE"`             |
-| `html`  | `string` | ✅       | HTML string to render                 |
-| `width` | `number` | ❌       | Viewport width in px (default: `600`) |
+| Field | Type   | Required | Description                         |
+| ----- | ------ | -------- | ----------------------------------- |
+| type  | string | ✅       | Must be "HTML_TO_IMAGE"             |
+| html  | string | ✅       | HTML string to render               |
+| width | number | ❌       | Viewport width in px (default: 600) |
 
 ### Request
 
@@ -220,13 +220,13 @@ Send a test message to a specified email address or phone number.
 
 ### Request Body
 
-| Field       | Type     | Required | Description                              |
-| ----------- | -------- | -------- | ---------------------------------------- |
-| `type`      | `string` | ✅       | Must be `"SEND_TEST"`                    |
-| `channel`   | `string` | ✅       | `EMAIL` or `SMS`                         |
-| `recipient` | `string` | ✅       | Email address or phone number to send to |
-| `subject`   | `string` | ❌       | Email subject (required for EMAIL)       |
-| `senderId`  | `string` | ❌       | Integration sender ID to use             |
+| Field     | Type   | Required | Description                              |
+| --------- | ------ | -------- | ---------------------------------------- |
+| type      | string | ✅       | Must be "SEND_TEST"                      |
+| channel   | string | ✅       | EMAIL or SMS                             |
+| recipient | string | ✅       | Email address or phone number to send to |
+| subject   | string | ❌       | Email subject (required for EMAIL)       |
+| senderId  | string | ❌       | Integration sender ID to use             |
 
 ### Request
 
@@ -261,17 +261,17 @@ Test sends are dispatched via **AWS Lambda** and use the same delivery pipeline 
 
 ## Library Item Object
 
-| Field         | Type             | Description                    |
-| ------------- | ---------------- | ------------------------------ |
-| `id`          | `string`         | Unique template ID             |
-| `name`        | `string`         | Display name                   |
-| `type`        | `string`         | `EMAIL` \| `SMS` \| `PUSH`     |
-| `htmlContent` | `string \| null` | Full HTML string (email only)  |
-| `jsonContent` | `object \| null` | Design editor JSON data        |
-| `smsContent`  | `string \| null` | SMS body text                  |
-| `pushPayload` | `object \| null` | Push notification payload      |
-| `thumbnail`   | `string \| null` | Preview image URL              |
-| `tags`        | `string[]`       | Tag labels                     |
-| `workspaceId` | `string`         | Owning workspace ID            |
-| `createdAt`   | `string`         | ISO 8601 creation timestamp    |
-| `updatedAt`   | `string`         | ISO 8601 last update timestamp |
+| Field       | Type           | Description                    |
+| ----------- | -------------- | ------------------------------ |
+| id          | string         | Unique template ID             |
+| name        | string         | Display name                   |
+| type        | string         | EMAIL \| SMS \| PUSH           |
+| htmlContent | string \| null | Full HTML string (email only)  |
+| jsonContent | object \| null | Design editor JSON data        |
+| smsContent  | string \| null | SMS body text                  |
+| pushPayload | object \| null | Push notification payload      |
+| thumbnail   | string \| null | Preview image URL              |
+| tags        | string[]       | Tag labels                     |
+| workspaceId | string         | Owning workspace ID            |
+| createdAt   | string         | ISO 8601 creation timestamp    |
+| updatedAt   | string         | ISO 8601 last update timestamp |

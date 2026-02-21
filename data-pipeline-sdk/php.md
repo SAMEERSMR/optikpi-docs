@@ -34,10 +34,10 @@ Initialize the SDK with an options array. You can load credentials from `.env` (
 
 | Option      | Type   | Required | Description                                                           |
 | ----------- | ------ | -------- | --------------------------------------------------------------------- |
-| authToken   | string | Yes      | Authentication token                                                  |
-| accountId   | string | Yes      | Account identifier                                                    |
-| workspaceId | string | Yes      | Workspace identifier                                                  |
-| baseURL     | string | Yes      | Ingest API base URL, e.g. `https://your-api-gateway-url/apigw/ingest` |
+| authToken   | string | ✅       | Authentication token                                                  |
+| accountId   | string | ✅       | Account identifier                                                    |
+| workspaceId | string | ✅       | Workspace identifier                                                  |
+| baseURL     | string | ✅       | Ingest API base URL, e.g. `https://your-api-gateway-url/apigw/ingest` |
 
 ```php
 $dotenv = parse_ini_file(__DIR__ . '/.env'); // or use Dotenv
@@ -164,17 +164,17 @@ Call `$customer->validate()` before sending. It returns an array with `isValid` 
 
 ## API methods
 
-| Method                           | Description                    |
-| -------------------------------- | ------------------------------ |
-| `sendCustomerProfile($data)`     | Push customer profile          |
-| `sendAccountEvent($data)`        | Push account event             |
-| `sendDepositEvent($data)`        | Push deposit event             |
-| `sendWithdrawEvent($data)`       | Push withdrawal event          |
-| `sendGamingActivityEvent($data)` | Push gaming activity event     |
-| `sendWalletBalanceEvent($data)`  | Push wallet balance event      |
-| `sendReferFriendEvent($data)`    | Push refer-friend event        |
-| `sendExtendedAttributes($data)`  | Push extended attributes       |
-| `sendBatch($batchData)`          | Send a batch of multiple types |
+| Method                         | Description                    |
+| ------------------------------ | ------------------------------ |
+| sendCustomerProfile($data)     | Push customer profile          |
+| sendAccountEvent($data)        | Push account event             |
+| sendDepositEvent($data)        | Push deposit event             |
+| sendWithdrawEvent($data)       | Push withdrawal event          |
+| sendGamingActivityEvent($data) | Push gaming activity event     |
+| sendWalletBalanceEvent($data)  | Push wallet balance event      |
+| sendReferFriendEvent($data)    | Push refer-friend event        |
+| sendExtendedAttributes($data)  | Push extended attributes       |
+| sendBatch($batchData)          | Send a batch of multiple types |
 
 ## Validation
 

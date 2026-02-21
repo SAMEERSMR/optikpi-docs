@@ -10,10 +10,10 @@ Check whether a user exists for the given email and workspace and has a password
 
 ### Query Parameters
 
-| Parameter     | Type     | Required | Description                         |
-| ------------- | -------- | -------- | ----------------------------------- |
-| `email`       | `string` | ✅       | User's email address                |
-| `workspaceId` | `string` | ✅       | Workspace ID to check membership in |
+| Parameter   | Type   | Required | Description                         |
+| ----------- | ------ | -------- | ----------------------------------- |
+| email       | string | ✅       | User's email address                |
+| workspaceId | string | ✅       | Workspace ID to check membership in |
 
 ### Request
 
@@ -90,26 +90,26 @@ Retrieve or update a user's profile. This endpoint **requires** a locale prefix.
 
 ### Request Headers
 
-| Header        | Description                         |
-| ------------- | ----------------------------------- |
-| `userId`      | Injected by middleware from session |
-| `workSpaceId` | Injected by middleware from session |
+| Header      | Description                         |
+| ----------- | ----------------------------------- |
+| userId      | Injected by middleware from session |
+| workSpaceId | Injected by middleware from session |
 
 ### Request Body
 
 All requests must include a `type` field. Other fields depend on the type.
 
-| Field            | Type     | Required | Description                                                                    |
-| ---------------- | -------- | -------- | ------------------------------------------------------------------------------ |
-| `type`           | `string` | ✅       | One of: `UNIQUE-USER-DETAILS`, `UPDATE-USER`, `UPDATE-MULTI-BRAND-USER-DETAIL` |
-| `id`             | `string` | ✅       | User ID (used for all three types)                                             |
-| `firstName`      | `string` | ❌       | For `UPDATE-USER`: first name                                                  |
-| `email`          | `string` | ❌       | For `UPDATE-USER`: email                                                       |
-| `role`           | `string` | ❌       | For `UPDATE-USER` or `UPDATE-MULTI-BRAND-USER-DETAIL`: role                    |
-| `status`         | `string` | ❌       | For `UPDATE-USER`: e.g. `inactive`                                             |
-| `workspaces`     | `array`  | ❌       | For `UPDATE-USER`: workspace IDs                                               |
-| `workspaceId`    | `string` | ❌       | For `UPDATE-USER` or `UPDATE-MULTI-BRAND-USER-DETAIL`: active workspace ID     |
-| `failedAttempts` | `number` | ❌       | For `UPDATE-USER`: failed login attempts                                       |
+| Field           | Type   | Required | Description                                                                   |
+| --------------- | ------ | -------- | ----------------------------------------------------------------------------- |
+| type            | string | ✅       | One of: UNIQUE-USER-DETAILS, UPDATE-USER, UPDATE-MULTI-BRAND-USER-DETAIL        |
+| id              | string | ✅       | User ID (used for all three types)                                            |
+| firstName       | string | ❌       | For UPDATE-USER: first name                                                   |
+| email           | string | ❌       | For UPDATE-USER: email                                                         |
+| role            | string | ❌       | For UPDATE-USER or UPDATE-MULTI-BRAND-USER-DETAIL: role                        |
+| status          | string | ❌       | For UPDATE-USER: e.g. inactive                                                 |
+| workspaces      | array  | ❌       | For UPDATE-USER: workspace IDs                                                |
+| workspaceId     | string | ❌       | For UPDATE-USER or UPDATE-MULTI-BRAND-USER-DETAIL: active workspace ID         |
+| failedAttempts  | number | ❌       | For UPDATE-USER: failed login attempts                                        |
 
 ### Type: UNIQUE-USER-DETAILS (Get User)
 

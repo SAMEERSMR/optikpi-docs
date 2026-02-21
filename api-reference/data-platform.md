@@ -12,11 +12,11 @@ Retrieve available data schema or attribute definitions for the workspace's conn
 
 ### Request Body
 
-| Field       | Type     | Required | Description                                      |
-| ----------- | -------- | -------- | ------------------------------------------------ |
-| `type`      | `string` | ✅       | Operation type: `GET_SCHEMA` or `GET_ATTRIBUTES` |
-| `tableName` | `string` | ❌       | Specific table name (for `GET_SCHEMA`)           |
-| `category`  | `string` | ❌       | Attribute category filter (for `GET_ATTRIBUTES`) |
+| Field     | Type   | Required | Description                                    |
+| --------- | ------ | -------- | ---------------------------------------------- |
+| type      | string | ✅       | Operation type: GET_SCHEMA or GET_ATTRIBUTES   |
+| tableName | string | ❌       | Specific table name (for GET_SCHEMA)           |
+| category  | string | ❌       | Attribute category filter (for GET_ATTRIBUTES) |
 
 ### Get Schema
 
@@ -174,23 +174,23 @@ Returns available customer attributes that can be used as filter conditions in t
 
 ## Attribute Categories
 
-| Category        | Description                                                   |
-| --------------- | ------------------------------------------------------------- |
-| `profile`       | Core customer profile fields (name, email, country, etc.)     |
-| `behavior`      | Transactional and behavioral data (orders, purchases, events) |
-| `subscriptions` | Opt-in/opt-out status across channels                         |
-| `custom`        | Workspace-defined custom attributes                           |
-| `computed`      | System-computed fields (LTV, engagement score, etc.)          |
+| Category      | Description                                                   |
+| ------------- | ------------------------------------------------------------- |
+| profile       | Core customer profile fields (name, email, country, etc.)     |
+| behavior      | Transactional and behavioral data (orders, purchases, events) |
+| subscriptions | Opt-in/opt-out status across channels                         |
+| custom        | Workspace-defined custom attributes                           |
+| computed      | System-computed fields (LTV, engagement score, etc.)          |
 
 ## BigQuery Field Types
 
 | BigQuery Type | Description                 |
 | ------------- | --------------------------- |
-| `STRING`      | Text values                 |
-| `INTEGER`     | Whole numbers               |
-| `FLOAT`       | Decimal numbers             |
-| `BOOLEAN`     | `true` / `false`            |
-| `DATE`        | Date values `YYYY-MM-DD`    |
-| `TIMESTAMP`   | Full datetime with timezone |
-| `JSON`        | Nested JSON objects         |
-| `ARRAY`       | Repeated values             |
+| STRING        | Text values                 |
+| INTEGER       | Whole numbers               |
+| FLOAT         | Decimal numbers             |
+| BOOLEAN       | true / false                |
+| DATE          | Date values YYYY-MM-DD      |
+| TIMESTAMP     | Full datetime with timezone |
+| JSON          | Nested JSON objects         |
+| ARRAY         | Repeated values             |
