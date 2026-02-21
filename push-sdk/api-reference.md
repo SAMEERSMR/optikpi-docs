@@ -52,7 +52,7 @@ const subscription = await sdk.subscribeUser();
 
 ### `sendSubscriptionToServer(subscription)`
 
-Sends the push subscription to the OptikPI push server.
+Sends the push subscription to the OptiKPI push server.
 
 ```javascript
 await sdk.sendSubscriptionToServer(subscription);

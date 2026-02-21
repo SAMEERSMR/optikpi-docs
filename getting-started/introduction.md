@@ -1,10 +1,10 @@
 # Introduction
 
-OptikPI is a full-stack marketing automation platform built on **Next.js 14**. It enables teams to create audience segments, run multi-channel campaigns, design automation workflows, and track engagement — all from a unified interface.
+OptiKPI is a full-stack marketing automation platform built on **Next.js 14**. It enables teams to create audience segments, run multi-channel campaigns, design automation workflows, and track engagement — all from a unified interface.
 
 ## Architecture Overview
 
-OptikPI is structured as a Next.js application with locale-prefixed API routes. All API endpoints follow this base path pattern:
+OptiKPI is structured as a Next.js application with locale-prefixed API routes. All API endpoints follow this base path pattern:
 
 ```http
 /{locale}/api/{resource}

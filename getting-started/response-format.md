@@ -1,6 +1,6 @@
 # Response Format
 
-All OptikPI API responses follow a consistent envelope format. Understanding this structure is essential for handling responses in the frontend and any integration code.
+All OptiKPI API responses follow a consistent envelope format. Understanding this structure is essential for handling responses in the frontend and any integration code.
 
 ## Standard Response Envelope
 

@@ -9,9 +9,9 @@ const warningIcon =
   '<span class="vp-icon vp-icon-warning vp-icon-warning-triangle" role="img" aria-label="Warning"></span>';
 
 export default defineConfig({
-  title: "OptikPI",
+  title: "OptiKPI",
   description:
-    "Official documentation for the OptikPI Marketing Automation Platform — APIs, Push SDK, and integration guides.",
+    "Official documentation for the OptiKPI Marketing Automation Platform — APIs, Push SDK, and integration guides.",
   cleanUrls: true,
   lastUpdated: true,
 
@@ -63,7 +63,7 @@ export default defineConfig({
 
   themeConfig: {
     logo: "/logo.svg",
-    siteTitle: "OptikPI Docs",
+    siteTitle: "OptiKPI Docs",
 
     nav: [
       { text: "Getting Started", link: "/getting-started/introduction" },
@@ -138,8 +138,8 @@ export default defineConfig({
     socialLinks: [],
 
     footer: {
-      message: "OptikPI Marketing Automation Platform",
-      copyright: `Copyright © ${new Date().getFullYear()} OptikPI`,
+      message: "OptiKPI Marketing Automation Platform",
+      copyright: `Copyright © ${new Date().getFullYear()} OptiKPI`,
     },
   },
 });

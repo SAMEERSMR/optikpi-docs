@@ -1,6 +1,6 @@
 # Authentication
 
-OptikPI uses **NextAuth.js** with a **Credentials Provider** and **JWT sessions** for authentication. All user sessions are stored as signed JWTs in HTTP-only cookies.
+OptiKPI uses **NextAuth.js** with a **Credentials Provider** and **JWT sessions** for authentication. All user sessions are stored as signed JWTs in HTTP-only cookies.
 
 ## Sign In
 
@@ -143,7 +143,7 @@ This means **API route handlers can read these headers directly** from the incom
 
 ## Role-Based Access Control
 
-OptikPI enforces permissions through a roles system stored in the `roles` collection in MongoDB. The `role` field in the session determines what actions a user can perform. Role permissions are loaded at startup and cached in a React context (`RolePermissionsContext`).
+OptiKPI enforces permissions through a roles system stored in the `roles` collection in MongoDB. The `role` field in the session determines what actions a user can perform. Role permissions are loaded at startup and cached in a React context (`RolePermissionsContext`).
 
 ::: tip
 See [Roles API →](/api-reference/roles) for managing roles and their permissions programmatically.

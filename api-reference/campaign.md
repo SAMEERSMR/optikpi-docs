@@ -270,4 +270,4 @@ Update the delivery status of a campaign (schedule, pause, cancel, etc.).
 | ------- | -------------------------- | ------------------------- |
 | `EMAIL` | SendGrid / Elastic Email   | HTML email template       |
 | `SMS`   | Integrated SMS provider    | Plain text / rich text    |
-| `PUSH`  | Web Push API (OptikPI SDK) | Push notification payload |
+| `PUSH`  | Web Push API (OptiKPI SDK) | Push notification payload |

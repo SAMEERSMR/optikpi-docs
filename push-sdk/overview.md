@@ -1,11 +1,11 @@
 # Push SDK Overview
 
-The **OptikPI Push SDK** (`optikpi-push-sdk.js`) is a vanilla JavaScript library that enables web push notification delivery using the **Web Push API** and **Service Workers**. It exposes a **`PushSDK`** class and is designed to run in any modern browser without a framework dependency.
+The **OptiKPI Push SDK** (`optikpi-push-sdk.js`) is a vanilla JavaScript library that enables web push notification delivery using the **Web Push API** and **Service Workers**. It exposes a **`PushSDK`** class and is designed to run in any modern browser without a framework dependency.
 
 ## How It Works
 
 ```text
-  Browser                     OptikPI Push Server
+  Browser                     OptiKPI Push Server
   ───────                     ───────────────────
   new PushSDK(key, endpoint)
      │

@@ -1,6 +1,6 @@
 # Installation
 
-This guide walks you through integrating the OptikPI Push SDK (`PushSDK`) into your website.
+This guide walks you through integrating the OptiKPI Push SDK (`PushSDK`) into your website.
 
 ## Prerequisites
 
