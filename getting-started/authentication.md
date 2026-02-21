@@ -78,6 +78,10 @@ response = requests.post(
 }
 ```
 
+::: danger
+Never expose credentials in client-side code, URLs, or logs. The password and CSRF token must only be sent in the POST body over HTTPS and must not be stored in the browser (e.g. in `localStorage`) or committed to version control.
+:::
+
 ## Session Data
 
 Once authenticated, the JWT session contains the following fields accessible via `useSession()` or `getServerSession()`:

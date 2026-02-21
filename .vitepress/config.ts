@@ -1,6 +1,13 @@
 import { defineConfig } from "vitepress";
 import { tabsMarkdownPlugin } from "vitepress-plugin-tabs";
 
+const requiredIcon =
+  '<span class="vp-icon vp-icon-required vp-icon-check" role="img" aria-label="Required"></span>';
+const optionalIcon =
+  '<span class="vp-icon vp-icon-optional vp-icon-incorrect" role="img" aria-label="Optional"></span>';
+const warningIcon =
+  '<span class="vp-icon vp-icon-warning vp-icon-warning-triangle" role="img" aria-label="Warning"></span>';
+
 export default defineConfig({
   title: "OptikPI",
   description:
@@ -27,6 +34,30 @@ export default defineConfig({
     lineNumbers: false,
     config: (md) => {
       md.use(tabsMarkdownPlugin);
+
+      const escapeHtml = (s: string) =>
+        String(s)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+      const defaultText = md.renderer.rules?.text;
+      md.renderer.rules.text = (tokens, idx, options, env, self) => {
+        const content = tokens[idx]?.content ?? "";
+        if (!/✅|❌|⚠️/.test(content))
+          return defaultText
+            ? defaultText(tokens, idx, options, env, self)
+            : escapeHtml(content);
+        const parts = content.split(/(✅|❌|⚠️)/g);
+        return parts
+          .map((p) => {
+            if (p === "✅") return requiredIcon;
+            if (p === "❌") return optionalIcon;
+            if (p === "⚠️") return warningIcon;
+            return escapeHtml(p);
+          })
+          .join("");
+      };
     },
   },
 
