@@ -1,152 +1,69 @@
 # Response Format
 
-All OptiKPI API responses follow a consistent envelope format. Understanding this structure is essential for handling responses in the frontend and any integration code.
+The **Data Pipeline Ingest API** returns a consistent shape for success and error. The SDK wraps this in a result object with `success` and either `data` or error details.
 
-## Standard Response Envelope
+## Success response
 
-Most API routes return responses wrapped in a `result` object:
-
-```json
-{
-  "result": {
-    "data": {},
-    "message": "Success",
-    "status": 200,
-    "totalCount": 42
-  }
-}
-```
-
-### Success Response
-
-| Field               | Type                  | Description                                           |
-| ------------------- | --------------------- | ----------------------------------------------------- |
-| result.data         | any                   | The response payload — object, array, or null         |
-| result.message      | string                | Human-readable status message                         |
-| result.status       | number                | HTTP-like status code                                 |
-| result.totalCount   | number \| undefined   | Total count for paginated list responses              |
-| result.workspace    | object[] \| undefined | Workspace-level metadata (returned by some endpoints)  |
-
-**Example — List Response**
+When the ingest request is accepted, the API returns:
 
 ```json
 {
-  "result": {
-    "data": [
-      {
-        "id": "audience_abc123",
-        "name": "High Value Customers",
-        "status": "ACTIVE",
-        "contactCount": 15420
-      }
-    ],
-    "message": "Audiences fetched successfully",
-    "status": 200,
-    "totalCount": 1
-  }
+  "message": "Success description",
+  "recordIds": ["record-id-1", "record-id-2"],
+  "count": 2
 }
 ```
 
-### Error Response
+| Field     | Type     | Description                    |
+| --------- | -------- | ------------------------------ |
+| message   | string   | Human-readable success message |
+| recordIds | string[] | IDs of created/updated records |
+| count     | number   | Number of records processed    |
 
-::: warning
-When an error occurs, the `data` field is `null` and an `error` field is added:
-:::
+## Error response
+
+When the request is invalid or the server fails, the API returns:
 
 ```json
 {
-  "result": {
-    "data": null,
-    "error": "NOT_FOUND",
-    "message": "The requested resource was not found.",
-    "status": 404
-  }
+  "error": "Bad Request",
+  "message": "Validation failed: account_id is required",
+  "details": { "field": "account_id", "issue": "missing required field" }
 }
 ```
 
-| Field           | Type   | Description                      |
-| --------------- | ------ | -------------------------------- |
-| result.data     | null   | Always null on error             |
-| result.error    | string | Machine-readable error code      |
-| result.message  | string | Human-readable error description |
-| result.status   | number | HTTP status code                 |
+| Field   | Type   | Description                      |
+| ------- | ------ | -------------------------------- |
+| error   | string | Machine-readable error code      |
+| message | string | Human-readable error description |
+| details | object | Optional; field-level validation |
 
-## Tags API — Flat Response Format
+## HTTP status codes
 
-The Tags API and a few other utility endpoints return a **flat** response (no `result` wrapper):
+| Code | Meaning           | Action                         |
+| ---- | ----------------- | ------------------------------ |
+| 200  | Success           | Request processed              |
+| 400  | Bad Request       | Check body and required fields |
+| 401  | Unauthorized      | Verify token and signature     |
+| 403  | Forbidden         | Token may be expired/invalid   |
+| 404  | Not Found         | Check base URL and path        |
+| 429  | Too Many Requests | Back off; respect rate limits  |
+| 500  | Server Error      | Retry after a delay            |
 
-**Success**
+## SDK result shape
 
-```json
-{
-  "data": ["vip", "churned", "new_user"],
-  "message": "Tags fetched successfully",
-  "status": 200,
-  "totalCount": 3
-}
-```
+The SDK does not expose the raw HTTP body directly. It returns an object:
 
-**Error**
+- **On success:** `{ success: true, data: <API response> }` (or equivalent in Java/Python/PHP).
+- **On failure:** `{ success: false, data?: ..., error?: ... }` with error details.
 
-```json
-{
-  "data": null,
-  "error": "UNAUTHORIZED",
-  "message": "You do not have permission to access this resource.",
-  "status": 401
-}
-```
+The SDK uses **retry with exponential backoff** for 5xx and 429. Do not retry 4xx without fixing the request.
 
-## HTTP Status Codes
+## Rate limits
 
-| Code | Meaning                                                     |
-| ---- | ----------------------------------------------------------- |
-| 200  | Success                                                     |
-| 201  | Resource created                                            |
-| 400  | Bad request — invalid parameters or missing required fields |
-| 401  | Unauthorized — session missing or expired                    |
-| 403  | Forbidden — insufficient role permissions                   |
-| 404  | Not found                                                   |
-| 409  | Conflict — duplicate resource                               |
-| 500  | Internal server error                                       |
+- **Customer and extended attributes:** 50 requests per second.
+- **Event endpoints:** 250 requests per second.
+- **Batch size:** Up to 500 records per batch request.
+- **Window:** 1 minute. On limit, the API returns **429 Too Many Requests**.
 
-## Pagination
-
-List endpoints that support pagination accept `page` and `pageSize` query parameters and return `totalCount` (or equivalent) in the response to allow calculating total pages.
-
-```http
-GET /{locale}/api/audience?page=1&pageSize=20
-```
-
-| Query Param | Type   | Default | Description                                         |
-| ----------- | ------ | ------- | --------------------------------------------------- |
-| page        | number | 1       | Page number (1-indexed)                             |
-| pageSize    | number | varies  | Records per page (e.g. Audience: 100, Campaign: 10) |
-
-::: tip
-The `totalCount` field represents the total number of records matching the query — not the number of items in the current page. Default `pageSize` can differ by endpoint; check each API reference.
-:::
-
-## Audience List — Different Response Shape
-
-The **GET** `/{locale}/api/audience` endpoint returns a **flat** object (no `result` wrapper):
-
-```json
-{
-  "records": [
-    {
-      "id": "aud_abc123",
-      "name": "High Value Customers",
-      "tags": ["vip"],
-      "status": "active",
-      "totalCustomers": 15420,
-      "updatedAt": "2024-11-15T14:30:00.000Z"
-    }
-  ],
-  "totalCount": 42
-}
-```
-
-::: info
-Other list endpoints may use the standard `result.data` envelope or a flat shape. Check the specific API reference for each endpoint.
-:::
+For full endpoint list and batch payload keys, see the [Integration Guide](/data-pipeline-sdk/integration-guide).
